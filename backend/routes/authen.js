@@ -15,6 +15,12 @@ const dbConfig = {
         enableArithAbort: true
     }
 };
+function getCurrentDateTimeUTC7() {
+    const dateTime = moment();
+    const dateTimeUTC7 = dateTime.tz('Asia/Bangkok');
+    return dateTimeUTC7.format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z';
+}
+
 
 route.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -59,8 +65,7 @@ route.post('/register', async (req, res) => {
 
     const hashedPassword = bcrypt.hashSync(password, 10);
     const member_status = 0;
-    const created_at = moment().tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm:ss');
-
+    const created_at = getCurrentDateTimeUTC7();
     try {
         const pool = await sql.connect(dbConfig);
         const userCheckResult = await pool.request()
