@@ -2,6 +2,8 @@ const route = require('express').Router();
 const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.SECRET_KEY;
 const moment = require('moment-timezone');
 require('dotenv').config();
 
@@ -20,7 +22,6 @@ function getCurrentDateTimeUTC7() {
     const dateTimeUTC7 = dateTime.tz('Asia/Bangkok');
     return dateTimeUTC7.format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z';
 }
-
 
 route.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -45,12 +46,14 @@ route.post('/login', async (req, res) => {
             return res.status(401).send('Unauthorized! Wrong password!');
         }
 
-        res.cookie('username', username, {
+        const token = jwt.sign({ user_id: user.user_id, username: user.username }, jwtSecret, { expiresIn: '180d' });
+
+        res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production'
         });
 
-        res.json(user);
+        res.json({ token, user });
     } catch (err) {
         console.error('SQL error', err);
         res.status(500).send('Internal Server Error');
@@ -83,12 +86,12 @@ route.post('/register', async (req, res) => {
             .input('member_status', sql.Bit, member_status)
             .input('created_at', sql.DateTime, created_at)
             .query('INSERT INTO users (username, hashed_password, email, member_status, created_at) VALUES (@username, @hashed_password, @email, @member_status, @created_at)');
-
-        res.cookie('username', username, {
+        
+        const token = jwt.sign({ user_id: user.user_id, username: user.username }, jwtSecret, { expiresIn: '180d' });
+        res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production'
         });
-
         res.status(201).send('Created');
     } catch (err) {
         console.error('SQL error', err);
