@@ -1,6 +1,5 @@
 name: jodjai
 description: "A new Flutter project."
-publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -19,10 +18,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  assets:
-    - assets/images/
-
   fonts:
     - family: Nunito
       fonts:
@@ -39,3 +34,5 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
         - asset: assets/fonts/Roboto-Bold.ttf
           weight: 700
+  assets:
+    - assets/images/
