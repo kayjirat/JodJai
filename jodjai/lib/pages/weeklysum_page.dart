@@ -25,13 +25,15 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Weekly Summary',
-                  style: TextStyle(
-                    fontFamily: 'Nunito',
-                    fontSize: 33.0,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFF666159),
+                const Center(
+                  child: Text(
+                    'Weekly Summary',
+                    style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 33.0,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF666159),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 45.0),
