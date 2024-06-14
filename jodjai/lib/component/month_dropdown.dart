@@ -47,42 +47,25 @@ class _MonthYearDropdownState extends State<MonthYearDropdown> {
 
   Widget _buildDropdown(List<String> items, String selectedValue,
       Function(String?) onChanged) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 147, 74, 74),
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
-          ),
-        ],
+    return DropdownButton<String>(
+      value: selectedValue,
+      icon: Icon(Icons.arrow_drop_down_rounded,
+          color: Color(0xff3C270B)),
+      iconSize: 24,
+      elevation: 16,
+      style: TextStyle(
+        color: Color(0xff3C270B),
+        fontFamily: 'Nunito',
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
       ),
-      child: DropdownButton<String>(
-        value: selectedValue,
-        icon: Icon(Icons.arrow_drop_down_rounded,
-            color: Color(0xff3C270B)),
-        iconSize: 24,
-        elevation: 16,
-        style: TextStyle(
-          color: Color(0xff3C270B),
-          fontFamily: 'Nunito',
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-        ),
-        onChanged: onChanged,
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(value),
-            ),
-          );
-        }).toList(),
-      ),
+      onChanged: onChanged,
+      items: items.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
@@ -92,10 +75,7 @@ void main() {
     home: Scaffold(
       appBar: AppBar(title: Text('Dropdown Menu Example')),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: MonthYearDropdown(),
-        ),
+        child: MonthYearDropdown(),
       ),
     ),
   ));

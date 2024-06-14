@@ -18,7 +18,7 @@ class MainScaffold extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(4.0), // Set the height of the shadow
+            Size.fromHeight(4.0), // Adjust the height of the shadow
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -35,7 +35,14 @@ class MainScaffold extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Positioned.fill(
+          // Positioned the body to fit between the app bar and navigation bar
+          Positioned(
+            top: 4.0, // Adjust this to fit below the app bar
+            bottom: showNavigation
+                ? 80.0
+                : 0, // Adjust bottom inset for navigation bar
+            left: 0,
+            right: 0,
             child: body,
           ),
           if (showNavigation)

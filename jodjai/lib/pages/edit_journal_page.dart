@@ -40,8 +40,8 @@ class _EditJournalPageState extends State<EditJournalPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20.0, top: 13),
+                    padding: const EdgeInsets.only(
+                        top: 45.0, left: 10.0, right: 20.0),
                     child: IconButton(
                       icon: const Icon(
                         Icons.arrow_back,
