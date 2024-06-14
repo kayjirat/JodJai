@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jodjai/component/navbar.dart';
 import 'package:jodjai/pages/signup_page.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: LoginPage(),
-  ));
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jodjai/pages/login_page.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: LandingPage(),
-  ));
-}
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});

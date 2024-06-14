@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: WeeklySumPage(),
-  ));
-}
 
 class WeeklySumPage extends StatefulWidget {
   const WeeklySumPage({super.key});

@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: SignupPage(),
-  ));
-}
-
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
