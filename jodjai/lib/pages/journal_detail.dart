@@ -99,10 +99,10 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, top: 13),
+              padding: const EdgeInsets.only(
+                  top: 45.0, left: 10.0, right: 20.0),
               child: Row(
                 children: [
                   IconButton(

@@ -26,7 +26,7 @@ class _JournalListPageState extends State<JournalListPage> {
                 style: TextStyle(
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w900,
-                  fontSize: 24,
+                  fontSize: 33,
                   color: Color(0xFF666159),
                 ),
               ),
