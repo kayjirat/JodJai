@@ -173,7 +173,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      '/EditJournalPage',
+                      '/editJournal',
                     );
                   },
                   icon: Icon(Icons.edit),
