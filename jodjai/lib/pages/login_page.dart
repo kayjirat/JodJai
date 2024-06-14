@@ -17,8 +17,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController =
+      TextEditingController();
+  final TextEditingController _passwordController =
+      TextEditingController();
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
@@ -154,32 +156,37 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 40.0),
                         // button
-                        SizedBox(
-                          width: 356,
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: _login,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3C270B),
-                              foregroundColor: Colors.white,
-                              textStyle: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                        Center(
+                          child: SizedBox(
+                            width: 356,
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: _login,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color(0xFF3C270B),
+                                foregroundColor: Colors.white,
+                                textStyle: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(20.0),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
+                              child: const Text('Log in'),
                             ),
-                            child: const Text('Log in'),
                           ),
                         ),
                         const SizedBox(height: 10.0),
                         Container(
                           alignment: Alignment.center,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment:
+                                MainAxisAlignment.center,
                             children: [
                               const Text(
                                 "Don't have an account?",
@@ -207,7 +214,8 @@ class _LoginPageState extends State<LoginPage> {
                                       fontFamily: 'Inter',
                                       fontSize: 13,
                                       color: Color(0xFF5B89FF),
-                                      decoration: TextDecoration.underline,
+                                      decoration:
+                                          TextDecoration.underline,
                                     ),
                                   ),
                                 ),

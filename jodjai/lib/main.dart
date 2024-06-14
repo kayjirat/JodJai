@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jodjai/pages/edit_journal_page.dart';
 import 'package:jodjai/pages/journal_detail.dart';
 import 'package:jodjai/pages/journal_list_page.dart';
+import 'package:jodjai/pages/landing_page.dart';
 import 'package:jodjai/pages/new_journal_page.dart';
 import 'package:jodjai/component/navigation_menu.dart';
 import 'package:jodjai/pages/profile_page.dart';
@@ -13,14 +14,19 @@ void main() {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Jodjai App',
-      initialRoute: '/journal',
+      initialRoute: '/landing', // Set initial landing route
       getPages: [
+        GetPage(
+          name: '/landing',
+          page: () =>
+              LandingPage(), // Define your landing page widget
+        ),
         GetPage(
           name: '/journal',
           page: () => MainScaffold(

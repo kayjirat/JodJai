@@ -15,9 +15,12 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController =
+      TextEditingController();
+  final TextEditingController _emailController =
+      TextEditingController();
+  final TextEditingController _passwordController =
+      TextEditingController();
 
   String? _validateUsername(String? value) {
     if (value == null || value.isEmpty) {
@@ -166,31 +169,36 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         const SizedBox(height: 30.0),
                         // button
-                        SizedBox(
-                          width: 356,
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                // All fields are valid, proceed with form submission
-                                _formKey.currentState!.save();
-                                // Perform further actions such as submitting the form
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3C270B),
-                              foregroundColor: Colors.white,
-                              textStyle: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                        Center(
+                          child: SizedBox(
+                            width: 356,
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!
+                                    .validate()) {
+                                  // All fields are valid, proceed with form submission
+                                  _formKey.currentState!.save();
+                                  // Perform further actions such as submitting the form
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color(0xFF3C270B),
+                                foregroundColor: Colors.white,
+                                textStyle: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(20.0),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
+                              child: const Text('Sign Up'),
                             ),
-                            child: const Text('Sign Up'),
                           ),
                         ),
                       ],

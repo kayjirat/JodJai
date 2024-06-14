@@ -79,8 +79,8 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     );
   }
 
-  Widget _buildProgressRow(
-      BuildContext context, String emojiPath, double progress, Color color) {
+  Widget _buildProgressRow(BuildContext context, String emojiPath,
+      double progress, Color color) {
     return Row(
       children: [
         Image.asset(
