@@ -1,102 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:jodjai/component/journal_card.dart';
+import 'package:jodjai/component/month_dropdown.dart';
 
-class MonthYearDropdown extends StatefulWidget {
+class JournalListPage extends StatefulWidget {
+  const JournalListPage({super.key});
+
   @override
-  _MonthYearDropdownState createState() => _MonthYearDropdownState();
+  State<JournalListPage> createState() => _JournalListPageState();
 }
 
-class _MonthYearDropdownState extends State<MonthYearDropdown> {
-  String _selectedMonth = 'January';
-  String _selectedYear = '2024';
-
-  List<String> _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-
-  List<String> _years = ['2023', '2024', '2025', '2026'];
-
+class _JournalListPageState extends State<JournalListPage> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _buildDropdown(_months, _selectedMonth, (String? newValue) {
-          setState(() {
-            _selectedMonth = newValue!;
-          });
-        }),
-        SizedBox(width: 16),
-        _buildDropdown(_years, _selectedYear, (String? newValue) {
-          setState(() {
-            _selectedYear = newValue!;
-          });
-        }),
-      ],
-    );
-  }
-
-  Widget _buildDropdown(List<String> items, String selectedValue,
-      Function(String?) onChanged) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 147, 74, 74),
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
+    return Scaffold(
+      backgroundColor: const Color(0xFFFEFBF6),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 60,
+              ),
+              const Text(
+                'My journal',
+                style: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w900,
+                  fontSize: 33,
+                  color: Color(0xFF666159),
+                ),
+              ),
+              Row(
+                children: [MonthYearDropdown()],
+              ),
+              const SizedBox(
+                height: 90,
+              ),
+              Image.asset(
+                'assets/images/journal_empty.png',
+                width: 208,
+                height: 208,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'You haven\'t write any journal yet',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 15,
+                      color: Color(0xFF666159),
+                    ),
+                  ),
+                  Text(
+                    'Let\'s start by adding your first journal!',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 15,
+                      color: Color(0xFF666159),
+                    ),
+                  ),
+                ],
+              ),
+              JournalCard(),
+              const SizedBox(height: 150),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30.0),
+                child: SizedBox(
+                  width: 250,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/newJournal');
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text(
+                      'Add daily journal',
+                      style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Color(0xFF3C270B),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: DropdownButton<String>(
-        value: selectedValue,
-        icon: Icon(Icons.arrow_drop_down_rounded,
-            color: Color(0xff3C270B)),
-        iconSize: 24,
-        elevation: 16,
-        style: TextStyle(
-          color: Color(0xff3C270B),
-          fontFamily: 'Nunito',
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
         ),
-        onChanged: onChanged,
-        items: items.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(value),
-            ),
-          );
-        }).toList(),
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(title: Text('Dropdown Menu Example')),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: MonthYearDropdown(),
-        ),
-      ),
-    ),
-  ));
 }
