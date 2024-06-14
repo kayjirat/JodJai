@@ -6,7 +6,7 @@ import 'package:jodjai/pages/journal_list_page.dart';
 import 'package:jodjai/pages/new_journal_page.dart';
 import 'package:jodjai/component/navigation_menu.dart';
 import 'package:jodjai/pages/profile_page.dart';
-import 'package:jodjai/pages/weekly_summary.dart';
+import 'package:jodjai/pages/weeklysum_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -31,7 +31,7 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: '/weeklySummary',
           page: () => MainScaffold(
-            body: WeeklySummaryPage(),
+            body: WeeklySumPage(),
             selectedIndex: 1,
           ),
         ),

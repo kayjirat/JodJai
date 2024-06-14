@@ -16,10 +16,37 @@ class MainScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: body,
-      bottomNavigationBar: showNavigation
-          ? NavigationMenu(selectedIndex: selectedIndex)
-          : null,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(4.0), // Set the height of the shadow
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 60, 54, 54)
+                    .withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, -4), // changes position of shadow
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: body,
+          ),
+          if (showNavigation)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: NavigationMenu(selectedIndex: selectedIndex),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -34,20 +61,22 @@ class NavigationMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return NavigationBarTheme(
       data: NavigationBarThemeData(
-          backgroundColor: Colors.white,
-          indicatorColor: Color.fromARGB(255, 222, 202, 175),
-          labelTextStyle: MaterialStateProperty.all(
-            TextStyle(
-              color: Color(0xff3C270B),
-              fontFamily: 'Nunito',
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
+        height: 80,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        indicatorColor: Colors.black.withOpacity(0.1),
+        labelTextStyle: MaterialStateProperty.all(
+          TextStyle(
+            color: Color(0xff3C270B),
+            fontFamily: 'Nunito',
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
           ),
-          iconTheme: MaterialStateProperty.all(
-            IconThemeData(color: Color(0xff3C270B)),
-          ),
-          elevation: 10),
+        ),
+        iconTheme: MaterialStateProperty.all(
+          IconThemeData(color: Color(0xff3C270B)),
+        ),
+      ),
       child: NavigationBar(
         height: 70,
         selectedIndex: selectedIndex,
@@ -78,8 +107,10 @@ class NavigationMenu extends StatelessWidget {
             tooltip: 'Weekly Summary',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
+            icon: Icon(
+              Icons.account_circle_outlined,
+            ),
+            selectedIcon: Icon(Icons.account_circle),
             label: 'Profile',
             tooltip: 'Profile',
           ),

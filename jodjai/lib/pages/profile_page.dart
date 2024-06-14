@@ -19,7 +19,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool _isEditingName = false;
   String _name = 'Name';
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   void _editName() {
@@ -78,7 +79,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Row(
                   children: [
-                    const Expanded(flex: 0, child: Icon(Icons.person)),
+                    const Expanded(
+                        flex: 0, child: Icon(Icons.person)),
                     const SizedBox(width: 20),
                     Expanded(
                       flex: 8,
@@ -95,7 +97,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Color(0xFF666159),
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
                                       color: Colors.black,
                                     ),
@@ -107,7 +110,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   color: Color(0xFF3C270B),
                                 ),
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null ||
+                                      value.isEmpty) {
                                     return 'Please enter a name';
                                   }
                                   return null;
@@ -130,7 +134,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: _isEditingName ? Colors.green : Colors.white,
+                          color: _isEditingName
+                              ? Colors.green
+                              : Colors.white,
                         ),
                         padding: const EdgeInsets.all(5),
                         child: Icon(
