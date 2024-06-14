@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jodjai/pages/edit_journal_page.dart';
 
 class JournalDetailPage extends StatefulWidget {
   const JournalDetailPage({super.key});
