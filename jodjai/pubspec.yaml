@@ -10,6 +10,8 @@ dependencies:
     sdk: flutter
   flutter_svg: ^1.0.3
   get: ^4.6.1
+  http: ^1.2.1
+  stripe_checkout: ^1.0.2
 
 dev_dependencies:
   flutter_test:
