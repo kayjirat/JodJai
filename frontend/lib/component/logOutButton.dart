@@ -75,7 +75,7 @@ Future<void> _showConfirmationDialog(BuildContext context) async {
               foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
             ),
             child: const Text(
-              'Log Out',
+              'Logout',
               style: TextStyle(fontFamily: 'Nunito', fontSize: 14),
             ),
           ),
