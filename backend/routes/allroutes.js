@@ -1,6 +1,6 @@
 const authen = require('./authen');
-const goal = require('./goal');
-const subgoal = require('./subgoal');
+const journal = require('./journal');
+const user = require('./user');
 
 class Routes {
     constructor(app) {
@@ -8,8 +8,8 @@ class Routes {
     }
     getRoutes() {
         this.app.use('/api/authen', authen);
-        this.app.use('/api/goal', goal);
-        this.app.use('/api/subgoal', subgoal);
+        this.app.use('/api/journal', journal);
+        this.app.use('/api/user', user);
     }
 }
 

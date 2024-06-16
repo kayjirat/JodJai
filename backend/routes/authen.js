@@ -24,16 +24,16 @@ function getCurrentDateTimeUTC7() {
 }
 
 route.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
         return res.status(400).send('Bad Request');
     }
     try {
         const pool = await sql.connect(dbConfig);
         const result = await pool.request()
-            .input('username', sql.NVarChar, username)
-            .query('SELECT * FROM users WHERE username = @username');
+            .input('email', sql.NVarChar, email)
+            .query('SELECT * FROM Users WHERE email = @email');
 
         if (result.recordset.length === 0) {
             return res.status(401).send('Unauthorized!');
@@ -74,7 +74,7 @@ route.post('/register', async (req, res) => {
         const userCheckResult = await pool.request()
             .input('username', sql.NVarChar, username)
             .input('email', sql.NVarChar, email)
-            .query('SELECT * FROM users WHERE username = @username OR email = @email');
+            .query('SELECT * FROM Users WHERE username = @username OR email = @email');
 
         if (userCheckResult.recordset.length > 0) {
             return res.status(409).send('User already exists');
@@ -85,14 +85,18 @@ route.post('/register', async (req, res) => {
             .input('email', sql.NVarChar, email)
             .input('member_status', sql.Bit, member_status)
             .input('created_at', sql.DateTime, created_at)
-            .query('INSERT INTO users (username, hashed_password, email, member_status, created_at) VALUES (@username, @hashed_password, @email, @member_status, @created_at)');
-        
-        const token = jwt.sign({ user_id: user.user_id, username: user.username }, jwtSecret, { expiresIn: '180d' });
+            .query('INSERT INTO Users (username, hashed_password, email, member_status, created_at) VALUES (@username, @hashed_password, @email, @member_status, @created_at)');
+
+        const newUserResult = await pool.request()
+            .input('username', sql.NVarChar, username)
+            .query('SELECT user_id, username FROM Users WHERE username = @username');
+        const newUser = newUserResult.recordset[0];
+        const token = jwt.sign({ user_id: newUser.user_id, username: newUser.username }, jwtSecret, { expiresIn: '180d' });
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production'
         });
-        res.status(201).send('Created');
+        res.status(201).json({ token, user: newUser });
     } catch (err) {
         console.error('SQL error', err);
         res.status(500).send('Internal Server Error');

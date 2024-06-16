@@ -1,16 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const sql = require('mssql');
+const Stripe = require('stripe');
+const myMiddleware = require('./middlewares/middleware');
 require('dotenv').config();
 
 const Routes = require('./routes/allroutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:8080',
+    credentials: true
+}));    
+app.use(myMiddleware);
 
 
 const dbConfig = {
@@ -41,26 +50,27 @@ app.get('/api/test', async (req, res) => {
     }
 });
 
-app.post('/api/test', async (req, res) => {
-    const { text } = req.body;
-    if (!text) {
-        return res.status(400).send('Bad Request');
-    }
-
+app.post('/create-payment-intent', async (req, res) => {
+    const { amount, currency } = req.body;
+  
     try {
-        const pool = await sql.connect(dbConfig);
-        const result = await pool.request()
-            .input('text', sql.NVarChar, text)
-            .query('INSERT INTO test (text) VALUES (@text)');
-        res.status(201).send('Created');
-    } catch (err) {
-        console.error('SQL error', err);
-        res.status(500).send('Internal Server Error');
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount,
+        currency,
+      });
+  
+      res.status(200).send({
+        clientSecret: paymentIntent.client_secret,
+      });
+    } catch (error) {
+      res.status(500).send({
+        error: error.message,
+      });
     }
-});
+  });
 
 new Routes(app).getRoutes();
-// Start the server
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
