@@ -1,4 +1,4 @@
-# frontend
+# JodJai
 
 A new Flutter project.
 
