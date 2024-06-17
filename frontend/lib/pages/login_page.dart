@@ -55,7 +55,15 @@ class _LoginPageState extends State<LoginPage> {
         await prefs.setString('token', token);
         Navigator.pushReplacementNamed(context, '/journal');
       } catch (e) {
-        print('Login failed: $e');
+        if (e.toString().contains('Wrong password')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Wrong password')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Login failed')),
+          );
+        }
       }
     }
   }

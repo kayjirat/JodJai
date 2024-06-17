@@ -23,6 +23,8 @@ class AuthService {
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
+    } else if (response.statusCode == 401) {
+      throw Exception('Wrong password');
     } else {
       throw Exception('Failed to login');
     }
