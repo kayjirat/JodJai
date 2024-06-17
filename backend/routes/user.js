@@ -56,7 +56,8 @@ router.get('/check', verifyJWT, async (req, res) => {
         const membershipStatus = result.recordset[0].member_status;
         const accountAgeDays = result.recordset[0].account_age;
         console.log(membershipStatus)
-        if ((membershipStatus === true && accountAgeDays <= 3)) {
+        console.log(accountAgeDays)
+        if ((membershipStatus === true && accountAgeDays <= 3) || (membershipStatus === false && accountAgeDays <= 3)) {
             return res.status(200).json(true); 
         }
         res.status(200).json(false);

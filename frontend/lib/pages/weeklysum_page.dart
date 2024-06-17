@@ -19,6 +19,7 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
   String _token = '';
   List<WeeklySummary> _weeklySummary = [];
   
+  
 
   @override
   void initState() {
@@ -60,11 +61,26 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     try {
       final response = await _journalService.getWeeklySummary(_token);
       setState(() {
-        _weeklySummary = response;
+        _weeklySummary = _completeMoodSummary(response);
       });
     } catch (e) {
       print('Failed to get weekly summary: $e');
     }
+  }
+
+  List<WeeklySummary> _completeMoodSummary(List<WeeklySummary> summary) {
+    final List<WeeklySummary> completeSummary = List.generate(5, (index) {
+      final moodRating = index + 1;
+      return WeeklySummary(moodRating: moodRating, moodPercentage: 0);
+    });
+    for (var item in summary) {
+      final index = completeSummary.indexWhere((mood) => mood.moodRating == item.moodRating);
+      if (index != -1) {
+        completeSummary[index] = item;
+      }
+    }
+
+    return completeSummary;
   }
 
 @override
