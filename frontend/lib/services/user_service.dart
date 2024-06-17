@@ -1,9 +1,14 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserService {
-  static const String baseUrl = 'http://localhost:2992/api/user';
-
+  final String url;
+  late final String baseUrl;
+  UserService() : url = dotenv.env['BASE_URL'] ?? '' {
+    baseUrl = '$url/user';
+  }
+  
   Future<Map<String, dynamic>> getUser(String token) async {
     final response = await http.get(
       Uri.parse('$baseUrl/profile'),

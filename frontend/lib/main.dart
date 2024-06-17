@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:frontend/pages/edit_journal_page.dart';
 import 'package:frontend/pages/journal_detail.dart';
@@ -9,13 +10,15 @@ import 'package:frontend/pages/profile_page.dart';
 import 'package:frontend/pages/weeklysum_page.dart';
 import 'package:frontend/pages/landing_page.dart';
 
-void main() {
+void main() async{
+  await dotenv.load(fileName: '.env');  
   runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
+  
   const MainApp({Key? key});
-
+  
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

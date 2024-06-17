@@ -5,11 +5,13 @@ import  '../models/weekly_summary.dart';
 
 
 class JournalService {
-  static const String baseUrl = 'http://localhost:2992/api/journal';
+  final String url;
+  late final String baseUrl;
+  JournalService() : url = dotenv.env['BASE_URL'] ?? '' {
+    baseUrl = '$url/journal';
+  }
 
   Future<void> createJournalEntry(String token, String title, String content, String entryDate, int moodRating) async {
-    print('Creating journal entry');
-    print(entryDate.substring(0,10));
     final response = await http.post(
       Uri.parse('$baseUrl/create'),
       headers: <String, String>{
@@ -48,7 +50,6 @@ class JournalService {
   }
 
   Future<void> deleteJournalEntry(String token, int journalId) async {
-    print('Deleting journal entry');
     final response = await http.delete(
       Uri.parse('$baseUrl/delete/$journalId'),
       headers: <String, String>{
@@ -78,7 +79,6 @@ class JournalService {
   }
 
   Future<List<dynamic>> getJournalEntries(String token) async {
-    print(token);
     final response = await http.get(
       Uri.parse('$baseUrl/list'),
       headers: <String, String>{
@@ -121,7 +121,6 @@ class JournalService {
     );
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
-      print(data.map((json) => WeeklySummary.fromJson(json)).toList());
       return data.map((json) => WeeklySummary.fromJson(json)).toList();
     }
     throw Exception('Failed to load weekly summary');

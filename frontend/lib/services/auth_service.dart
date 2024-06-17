@@ -1,12 +1,17 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthService {
-  static const String baseUrl = 'http://localhost:2992/api';
+  final String url;
+  late final String baseUrl;
+  AuthService() : url = dotenv.env['BASE_URL'] ?? '' {
+    baseUrl = '$url/authen';
+  }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/authen/login'),
+      Uri.parse('$baseUrl/login'),
       headers: <String, String>{
         'Content-Type': 'application/json',
       },
@@ -23,7 +28,8 @@ class AuthService {
     }
   }
 
-  Future<Map<String, dynamic>> register(String username, String password, String email) async {
+  Future<Map<String, dynamic>> register(
+      String username, String password, String email) async {
     final response = await http.post(
       Uri.parse('$baseUrl/authen/register'),
       headers: <String, String>{
