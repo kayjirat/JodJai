@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/component/navbar.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void _login() async{
+  void _login() async {
     if (_formKey.currentState!.validate()) {
       // All fields are valid, proceed with form submission
       try {

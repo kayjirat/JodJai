@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend/component/checkout.dart';
+import 'package:frontend/pages/success.dart';
 import 'package:get/get.dart';
 import 'package:frontend/pages/edit_journal_page.dart';
 import 'package:frontend/pages/journal_detail.dart';
@@ -67,6 +69,18 @@ class MainApp extends StatelessWidget {
           name: '/editJournal',
           page: () => Scaffold(
             body: EditJournalPage(),
+          ),
+        ),
+         GetPage(
+          name: '/checkout',
+          page: () => Scaffold(
+            body: CheckoutButton(),
+          ),
+        ),
+        GetPage(
+          name: '/success',
+          page: () => Scaffold(
+            body: MyWidget(),
           ),
         ),
       ],

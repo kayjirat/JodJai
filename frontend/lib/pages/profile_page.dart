@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:frontend/component/checkout.dart';
 import 'package:frontend/component/logOutButton.dart';
 import 'package:frontend/pages/feedback_page.dart';
 import 'package:frontend/services/user_service.dart';
@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
           _status = _isMember ? 'Premium' : 'Free';
         });
       } catch (e) {
-        print('Failed to get user info: $e'); 
+        print('Failed to get user info: $e');
       }
     }
   }
@@ -244,75 +244,50 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 20),
               // Payment
               GestureDetector(
-              onTap: () {
-                if (!_isMember) {
-                  // Navigate to the payment page or show a dialog to upgrade membership
-                  // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentPage()));
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                        'Membership: $_status',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF3C270B),
-                        ),
-                      ),
-                    ),
-                    // Expanded(
-                    //   child: Icon(
-                    //     Icons.arrow_forward_ios,
-                    //     size: 15,
-                    //     color: Color(0xFF3C270B),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
-            ),
-            if (!_isMember)
-              const SizedBox(height: 20),
-              GestureDetector(
                 onTap: () {
-                  // Action to handle when free user taps to upgrade to premium
-                  // Navigator.pushNamed(context, '/journal');
+                  if (!_isMember) {
+                    // Navigate to the payment page or show a dialog to upgrade membership
+                    // Example: Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentPage()));
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(15.0),
-                  margin: const EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
-                    color: Color(0xFF666159),
+                    color: Colors.white,
                     border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Center(
-                    child: Text(
-                      'Upgrade to Premium',
-                      style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: Text(
+                          'Membership: $_status',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF3C270B),
+                          ),
+                        ),
                       ),
-                    ),
+                      // Expanded(
+                      //   child: Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 15,
+                      //     color: Color(0xFF3C270B),
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
               ),
-          ],
+              if (!_isMember) const SizedBox(height: 20),
+              if (!_isMember) const CheckoutButton(),
+              if (!_isMember) const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

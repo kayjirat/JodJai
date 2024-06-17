@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/component/navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 
