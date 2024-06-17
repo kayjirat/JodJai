@@ -37,7 +37,7 @@ Future<void> _showConfirmationDialog(BuildContext context) async {
                 fontFamily: 'Nunito',
                 fontSize: 20,
                 fontWeight: FontWeight.w900)),
-        content: const Text('Are you sure you want to log out?',
+        content: const Text('Are you sure you want to logout?',
             style: TextStyle(fontFamily: 'Roboto', fontSize: 16)),
         backgroundColor: Colors.white,
         actions: <Widget>[
