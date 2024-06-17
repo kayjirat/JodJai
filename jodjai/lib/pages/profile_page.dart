@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:jodjai/component/checkout.dart';
 import 'package:jodjai/component/logOutButton.dart';
 import 'package:jodjai/pages/feedback_page.dart';
 
@@ -37,6 +38,13 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const FeedbackPage()),
+    );
+  }
+
+  void _navigateToPaymentPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const CheckoutPage()),
     );
   }
 
@@ -184,34 +192,37 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 20),
               // Payment
-              Container(
-                padding: const EdgeInsets.all(15.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                ),
-                child: const Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Text(
-                        'Payment',
-                        style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () => _navigateToPaymentPage(context),
+                child: Container(
+                  padding: const EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: Text(
+                          'Payment',
+                          style: TextStyle(
+                            fontFamily: 'Nunito',
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF3C270B),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15,
                           color: Color(0xFF3C270B),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
-                        color: Color(0xFF3C270B),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
