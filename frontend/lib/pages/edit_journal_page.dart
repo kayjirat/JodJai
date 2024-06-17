@@ -3,6 +3,7 @@ import 'package:frontend/component/e_primary_header_container.dart';
 import 'package:frontend/component/emotion_show_and_select.dart';
 import 'package:frontend/services/journal_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/component/on_confirm_dialog.dart';
 
 class EditJournalPage extends StatefulWidget {
   @override
@@ -61,13 +62,11 @@ class _EditJournalPageState extends State<EditJournalPage> {
       firstDate: DateTime(2000),
       lastDate: DateTime(DateTime.now().year + 5),
     );
-    print('picked date: $picked');
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
       });
     }
-    print('selected date: $_selectedDate');
   }
 
   String getMoodImage(int moodRating) {
@@ -93,39 +92,54 @@ class _EditJournalPageState extends State<EditJournalPage> {
         _selectedDate == null ||
         _selectedEmotion == 0) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('All fields are required')));
+          .showSnackBar(const SnackBar(content: Text('All fields are required')));
       return;
     }
-    try {
-      await _journalService.updateJournalEntry(
-        _token,
-        id,
-        _titleController.text,
-        _contentController.text,
-        _selectedDate!.toString(),
-        _selectedEmotion,
-      );
-      Navigator.pushNamed(
-        context,
-       '/journalDetail',
-       arguments: {
-         'title': _titleController.text,
-         'content': _contentController.text,
-         'entryDate': _selectedDate!.toString(),
-         'moodRating': _selectedEmotion,
-         'id': id,
-       },);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update journal entry')));
-    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return OnConfirmDialog(
+          title: 'Update Journal',
+          content: 'Are you sure you want to update this journal entry?',
+          onConfirm: () async {
+            try {
+              await _journalService.updateJournalEntry(
+                _token,
+                id,
+                _titleController.text,
+                _contentController.text,
+                _selectedDate!.toString(),
+                _selectedEmotion,
+              );
+              Navigator.pushNamed(
+                context,
+                '/journalDetail',
+                arguments: {
+                  'title': _titleController.text,
+                  'content': _contentController.text,
+                  'entryDate': _selectedDate!.toString(),
+                  'moodRating': _selectedEmotion,
+                  'id': id,
+                },
+              );
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Failed to update journal entry')));
+            }
+          },
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
                 children: [
@@ -142,7 +156,7 @@ class _EditJournalPageState extends State<EditJournalPage> {
                             ),
                             onPressed: () {
                               Navigator.pushNamed(
-                                context, 
+                                context,
                                 '/journalDetail',
                                 arguments: {
                                   'title': title,
@@ -150,12 +164,13 @@ class _EditJournalPageState extends State<EditJournalPage> {
                                   'entryDate': date,
                                   'moodRating': moodRating,
                                   'id': id,
-                                },);
+                                },
+                              );
                             },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 10),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 30.0, top: 10),
                           child: Text(
                             'Edit Journal',
                             style: TextStyle(
@@ -326,15 +341,16 @@ class _EditJournalPageState extends State<EditJournalPage> {
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(
-                                context, 
-                                '/journalDetail',
-                                arguments: {
-                                  'title': title,
-                                  'content': content,
-                                  'entryDate': date,
-                                  'moodRating': moodRating,
-                                  'id': id,
-                                },);
+                                  context,
+                                  '/journalDetail',
+                                  arguments: {
+                                    'title': title,
+                                    'content': content,
+                                    'entryDate': date,
+                                    'moodRating': moodRating,
+                                    'id': id,
+                                  },
+                                );
                               },
                               child: Text(
                                 'Cancel',

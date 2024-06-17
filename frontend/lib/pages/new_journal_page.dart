@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:frontend/component/e_primary_header_container.dart';
 import 'package:frontend/component/emotion_selector.dart';
 import 'package:frontend/services/journal_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/component/on_confirm_dialog.dart';
 
 class NewJournalPage extends StatefulWidget {
   NewJournalPage({Key? key}) : super(key: key);
@@ -16,16 +19,15 @@ class _NewJournalPageState extends State<NewJournalPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   DateTime? _selectedDate;
-  int _selectedEmotion= 0;
+  int _selectedEmotion = 0;
   String _token = '';
   final maxLines = 10;
-  
+
   @override
   void initState() {
     super.initState();
     _loadTokenFromSharedPreferences();
   }
-  
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -50,31 +52,59 @@ class _NewJournalPageState extends State<NewJournalPage> {
 
   void _saveJournalEntry() async {
     print('Saving journal entry');
-    
+
     if (_titleController.text.isEmpty ||
         _contentController.text.isEmpty ||
         _selectedDate == null ||
         _selectedEmotion == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('All fields are required')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('All fields are required')));
       return;
     }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return OnConfirmDialog(
+          title: 'Save Journal Entry',
+          content: 'Are you sure you want to save this journal entry?',
+          onConfirm: () async {
+            try {
+              await _journalService.createJournalEntry(
+                _token,
+                _titleController.text,
+                _contentController.text,
+                _selectedDate!.toIso8601String(),
+                _selectedEmotion,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Journal entry created')));
+              Navigator.pushNamed(context, '/journal');
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Failed to create journal entry')));
+            }
+          },
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
 
-    try {
-      await _journalService.createJournalEntry(
-        _token,
-        _titleController.text,
-        _contentController.text,
-        _selectedDate!.toIso8601String(),
-        _selectedEmotion,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Journal entry created')));
-      Navigator.pushNamed(context, '/journal');
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to create journal entry')));
-    }
+    // try {
+    //   await _journalService.createJournalEntry(
+    //     _token,
+    //     _titleController.text,
+    //     _contentController.text,
+    //     _selectedDate!.toIso8601String(),
+    //     _selectedEmotion,
+    //   );
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Journal entry created')));
+    //   Navigator.pushNamed(context, '/journal');
+    // } catch (e) {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to create journal entry')));
+    // }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +117,8 @@ class _NewJournalPageState extends State<NewJournalPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 40.0, left: 10.0, right: 20.0),
+                    padding: const EdgeInsets.only(
+                        top: 40.0, left: 10.0, right: 20.0),
                     child: IconButton(
                       icon: const Icon(
                         Icons.arrow_back,
@@ -100,8 +130,7 @@ class _NewJournalPageState extends State<NewJournalPage> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 30.0),
+                    padding: const EdgeInsets.only(left: 30.0),
                     child: Text(
                       'New Journal',
                       style: TextStyle(
@@ -157,8 +186,7 @@ class _NewJournalPageState extends State<NewJournalPage> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Color(0xff3C270B),
-                            width:
-                                1.0, // Adjust border width as needed
+                            width: 1.0, // Adjust border width as needed
                           ),
                           borderRadius: BorderRadius.circular(
                               10.0), // Adjust border radius as needed
@@ -220,8 +248,7 @@ class _NewJournalPageState extends State<NewJournalPage> {
                         color: Colors.black),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                       hintText: 'Title...',
                       contentPadding: EdgeInsets.symmetric(
@@ -237,12 +264,10 @@ class _NewJournalPageState extends State<NewJournalPage> {
                         fontFamily: 'Roboto',
                         fontSize: 14,
                         color: Colors.black),
-                    maxLines:
-                        maxLines, // Allows the TextField to be multiline
+                    maxLines: maxLines, // Allows the TextField to be multiline
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                       contentPadding: EdgeInsets.symmetric(
                         vertical:
@@ -260,8 +285,7 @@ class _NewJournalPageState extends State<NewJournalPage> {
             Container(
               padding: const EdgeInsets.only(top: 40, bottom: 30.0),
               child: SizedBox(
-                width:
-                    300, // Set button width to match the parent width
+                width: 300, // Set button width to match the parent width
                 child: ElevatedButton(
                   onPressed: () {
                     _saveJournalEntry();
@@ -274,11 +298,10 @@ class _NewJournalPageState extends State<NewJournalPage> {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 20),
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          20.0), // Set border radius
+                      borderRadius:
+                          BorderRadius.circular(20.0), // Set border radius
                     ),
                   ),
                   child: Text('Save'),

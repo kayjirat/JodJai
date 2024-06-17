@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/component/on_confirm_dialog.dart';
 
 
 class FeedbackPage extends StatefulWidget {
-  const FeedbackPage({Key? key}) : super(key: key);
+  const FeedbackPage({super.key});
 
   @override
   State<FeedbackPage> createState() => _FeedbackPageState();
@@ -13,7 +14,7 @@ class FeedbackPage extends StatefulWidget {
 class _FeedbackPageState extends State<FeedbackPage> {
   late UserService _userService;
   String _token = '';
-  TextEditingController _feedbackController = TextEditingController();
+  final TextEditingController _feedbackController = TextEditingController();
   
   @override
   void initState() {
@@ -28,7 +29,22 @@ class _FeedbackPageState extends State<FeedbackPage> {
   }
 
   Future<void> _sendFeedback() async {
-    final response = await _userService.sendFeedback(_token, _feedbackController.text);
+    if (_feedbackController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter feedback'),
+        ),
+      );
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return OnConfirmDialog(
+          title: 'Feedback',
+          content: 'Are you sure you want to submit feedback?',
+          onConfirm: () async {
+            final response = await _userService.sendFeedback(_token, _feedbackController.text);
     if (response == 'Feedback submitted') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -44,6 +60,15 @@ class _FeedbackPageState extends State<FeedbackPage> {
         ),
       );
     }
+          },
+          onCancel: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+    
+    
   }
   
   @override
