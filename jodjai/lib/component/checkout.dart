@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jodjai/component/stripe_service.dart';
 
-void main(){
-  runApp(const MaterialApp(
-    home: CheckoutPage()
-  ));
-}
-
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
 
@@ -41,21 +35,28 @@ class _CheckoutPageState extends State<CheckoutPage> {
               mounted,
               onSuccess: () {
                 print("SUCCESS");
+                // Navigate to a success screen or update UI accordingly
+                Navigator.pushReplacementNamed(context, '/success');
               },
               onCancel: () {
                 print("Cancel");
+                // Handle cancellation, e.g., navigate to a cancellation screen
+                Navigator.pushReplacementNamed(context, '/cancel');
               },
               onError: (e) {
                 print("Error: " + e.toString());
+                // Handle error, display error message, etc.
+                Navigator.pushReplacementNamed(context, '/error');
               },
             );
           },
           style: TextButton.styleFrom(
-              backgroundColor: Colors.teal,
-              foregroundColor: Colors.white,
-              shape: const BeveledRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(1)),
-              )),
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
+            shape: const BeveledRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(1)),
+            ),
+          ),
           child: const Text("Checkout"),
         ),
       ),

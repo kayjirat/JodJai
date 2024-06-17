@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jodjai/component/checkout.dart';
 import 'package:jodjai/pages/edit_journal_page.dart';
 import 'package:jodjai/pages/journal_detail.dart';
 import 'package:jodjai/pages/journal_list_page.dart';
@@ -7,6 +8,7 @@ import 'package:jodjai/pages/landing_page.dart';
 import 'package:jodjai/pages/new_journal_page.dart';
 import 'package:jodjai/component/navigation_menu.dart';
 import 'package:jodjai/pages/profile_page.dart';
+import 'package:jodjai/pages/success.dart';
 import 'package:jodjai/pages/weeklysum_page.dart';
 
 void main() {
@@ -64,6 +66,18 @@ class MainApp extends StatelessWidget {
           name: '/editJournal',
           page: () => Scaffold(
             body: EditJournalPage(),
+          ),
+        ),
+        GetPage(
+          name: '/checkout',
+          page: () => Scaffold(
+            body: CheckoutPage(),
+          ),
+        ),
+        GetPage(
+          name: '/success',
+          page: () => Scaffold(
+            body: MyWidget(),
           ),
         ),
       ],

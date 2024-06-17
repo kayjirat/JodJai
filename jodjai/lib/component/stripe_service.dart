@@ -11,20 +11,24 @@ class StripeService {
   static Future<String?> createCheckoutSession(
     List<dynamic> productItems,
     totalAmount,
+    String successUrl,
+    String cancelUrl,
   ) async {
-    final url = Uri.parse("https://api.stripe.com/v1/checkout/sessions");
+    final url =
+        Uri.parse("https://api.stripe.com/v1/checkout/sessions");
     String lineItems = "";
     int index = 0;
 
     productItems.forEach((val) {
-      var productPrice = (val["productPrice"] * 100).round().toString();
+      var productPrice =
+          (val["productPrice"] * 100).round().toString();
       lineItems +=
           "&line_items[$index][price_data][product_data][name]=${val['productName']}";
       lineItems +=
           "&line_items[$index][price_data][unit_amount]=${productPrice}";
       lineItems += "&line_items[$index][price_data][currency]=THB";
-      lineItems += "&line_items[$index][quantity]=${val['qty'].toString()}";
-
+      lineItems +=
+          "&line_items[$index][quantity]=${val['qty'].toString()}";
       index++;
     });
 
@@ -32,7 +36,7 @@ class StripeService {
       final response = await http.post(
         url,
         body:
-            'success_url=https://checkout.stripe.dev/success&mode=payment$lineItems',
+            'success_url=$successUrl&cancel_url=$cancelUrl&mode=payment$lineItems',
         headers: {
           'Authorization': 'Bearer $secretKey',
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -53,17 +57,21 @@ class StripeService {
   }
 
   static Future<dynamic> stripePaymentCheckout(
-    productItems,
-    subTotal,
+    List<dynamic> productItems,
+    totalAmount,
     context,
     mounted, {
     onSuccess,
     onCancel,
     onError,
+    String successUrl = "http://localhost:56856/#/success",
+    String cancelUrl = "http://localhost:56856/#/cancel",
   }) async {
     final String? sessionId = await createCheckoutSession(
       productItems,
-      subTotal,
+      totalAmount,
+      successUrl,
+      cancelUrl,
     );
 
     if (sessionId == null) {
@@ -74,22 +82,37 @@ class StripeService {
       return;
     }
 
-    final result = await redirectToCheckout(
-      context: context,
-      sessionId: sessionId,
-      publishableKey: publishableKey,
-      successUrl: "https://checkout.stripe.dev/success",
-      canceledUrl: "https://checkout.stripe.dev/cancel",
-    );
-
-    if (mounted) {
-      final text = result.when(
-        redirected: () => 'Redirected Successfully',
-        success: () => onSuccess(),
-        canceled: () => onCancel(),
-        error: (e) => onError(e),
+    try {
+      final result = await redirectToCheckout(
+        context: context,
+        sessionId: sessionId,
+        publishableKey: publishableKey,
+        successUrl: successUrl,
+        canceledUrl: cancelUrl,
       );
-      return text;
+
+      if (mounted) {
+        result.when(
+          redirected: () {
+            print('Redirected Successfully');
+          },
+          success: () {
+            print('Payment Successful');
+            onSuccess(); // Call your success callback
+          },
+          canceled: () {
+            print('Payment Canceled');
+            onCancel(); // Call your cancel callback
+          },
+          error: (e) {
+            print('Payment Error: $e');
+            onError(e); // Call your error callback
+          },
+        );
+      }
+    } catch (e) {
+      print('Exception during payment: $e');
+      onError(e.toString()); // Handle any exceptions
     }
   }
 }

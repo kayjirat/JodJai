@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jodjai/component/navbar.dart';
 import 'package:jodjai/pages/signup_page.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -42,10 +40,6 @@ class _LoginPageState extends State<LoginPage> {
       // All fields are valid, proceed with form submission
       _formKey.currentState!.save();
       // Navigate to the Navbar or any other page after successful login
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Navbar()),
-      );
     }
   }
 
