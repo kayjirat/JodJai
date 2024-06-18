@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:frontend/services/journal_service.dart';
 import 'package:frontend/services/user_service.dart';
@@ -116,7 +118,7 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
                             summary.moodPercentage / 100,
                             _getColor(summary.moodRating),
                           );
-                        }).toList()
+                        })
                       else
                         const Center(
                           child: Text(

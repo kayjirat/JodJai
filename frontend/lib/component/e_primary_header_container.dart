@@ -18,11 +18,11 @@ class EPrimaryHeaderContainer extends StatelessWidget {
             .infinity, // Set the width to span the entire width of the page
         height: 150,
         child: Container(
-          color: Color(0xFFB1EACD),
-          padding: EdgeInsets.only(bottom: 0),
+          color: const Color(0xFFB1EACD),
+          padding: const EdgeInsets.only(bottom: 0),
           child: Stack(
             children: [
-              Positioned(
+              const Positioned(
                 top: -50,
                 right: -120,
                 child: ECircularContainer(
@@ -30,7 +30,7 @@ class EPrimaryHeaderContainer extends StatelessWidget {
                   height: 283,
                 ),
               ),
-              Positioned(
+              const Positioned(
                 top: 100,
                 right: 80,
                 child: ECircularContainer(

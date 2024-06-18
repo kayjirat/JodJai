@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:frontend/component/journal_card.dart';
 import 'package:frontend/component/month_dropdown.dart';
@@ -5,7 +7,7 @@ import 'package:frontend/services/journal_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JournalListPage extends StatefulWidget {
-  const JournalListPage({Key? key}) : super(key: key);
+  const JournalListPage({super.key});
 
   @override
   State<JournalListPage> createState() => _JournalListPageState();
@@ -89,7 +91,6 @@ class _JournalListPageState extends State<JournalListPage> {
       _isLoading = true;
     });
     try {
-      print('Fetching entries for month: $month, year: $year with token: $_token');
       final entries = await _journalService.getJournalEntriesByDate(_token, month, year);
       if (entries != null) {
         setState(() {
@@ -102,6 +103,7 @@ class _JournalListPageState extends State<JournalListPage> {
       });
       }
     } catch (e) {
+      // ignore: avoid_print
       print('Failed to fetch journal entries: $e');
       setState(() {
         _isLoading = false;

@@ -7,17 +7,17 @@ class MainScaffold extends StatelessWidget {
   final bool showNavigation;
 
   const MainScaffold({
-    Key? key,
+    super.key,
     required this.body,
     required this.selectedIndex,
     this.showNavigation = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(4.0), // Adjust the height of the shadow
+        preferredSize: const Size.fromHeight(4.0), // Adjust the height of the shadow
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -25,7 +25,7 @@ class MainScaffold extends StatelessWidget {
                 color: const Color.fromARGB(255, 60, 54, 54).withOpacity(0.5),
                 spreadRadius: 5,
                 blurRadius: 7,
-                offset: Offset(0, -4), // changes position of shadow
+                offset: const Offset(0, -4), // changes position of shadow
               ),
             ],
           ),
@@ -59,8 +59,7 @@ class MainScaffold extends StatelessWidget {
 class NavigationMenu extends StatelessWidget {
   final int selectedIndex;
 
-  const NavigationMenu({Key? key, required this.selectedIndex})
-      : super(key: key);
+  const NavigationMenu({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +70,7 @@ class NavigationMenu extends StatelessWidget {
         backgroundColor: Colors.white,
         indicatorColor: Colors.black.withOpacity(0.1),
         labelTextStyle: MaterialStateProperty.all(
-          TextStyle(
+          const TextStyle(
             color: Color(0xff3C270B),
             fontFamily: 'Nunito',
             fontSize: 12,
@@ -79,7 +78,7 @@ class NavigationMenu extends StatelessWidget {
           ),
         ),
         iconTheme: MaterialStateProperty.all(
-          IconThemeData(color: Color(0xff3C270B)),
+          const IconThemeData(color: Color(0xff3C270B)),
         ),
       ),
       child: NavigationBar(

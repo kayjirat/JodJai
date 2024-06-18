@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -21,16 +23,16 @@ class StripeService {
     String lineItems = "";
     int index = 0;
 
-    productItems.forEach((val) {
+    for (var val in productItems) {
       var productPrice = (val["productPrice"] * 100).round().toString();
       lineItems +=
           "&line_items[$index][price_data][product_data][name]=${val['productName']}";
       lineItems +=
-          "&line_items[$index][price_data][unit_amount]=${productPrice}";
+          "&line_items[$index][price_data][unit_amount]=$productPrice";
       lineItems += "&line_items[$index][price_data][currency]=THB";
       lineItems += "&line_items[$index][quantity]=${val['qty'].toString()}";
       index++;
-    });
+    }
 
     try {
       final response = await http.post(
@@ -106,7 +108,7 @@ class StripeService {
     }
   }
 
-  Future<void> createMembership(String token, String stripe_payment_id) async {
+  Future<void> createMembership(String token, String stripePaymentId) async {
     print(baseUrl);
     final response = await http.post(
       Uri.parse('$baseUrl/membership'),
@@ -115,7 +117,7 @@ class StripeService {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode(<String, String>{
-        'stripe_payment_id': stripe_payment_id,
+        'stripe_payment_id': stripePaymentId,
       }),
     );
     if (response.statusCode != 201) {

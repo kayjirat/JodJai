@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_build_context_synchronously, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,7 +73,7 @@ Future<void> _showConfirmationDialog(BuildContext context) async {
             },
             style: ButtonStyle(
               backgroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xFF3C270B)),
+                  MaterialStateProperty.all<Color>(const Color(0xFF3C270B)),
               foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
             ),
             child: const Text(

@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:frontend/services/journal_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JournalDetailPage extends StatefulWidget {
-  const JournalDetailPage({Key? key}) : super(key: key);
+  const JournalDetailPage({super.key});
 
   @override
   State<JournalDetailPage> createState() => _JournalDetailPageState();
@@ -17,7 +19,6 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
   late int moodRating = 0;
   late int id = 0;
 
-  bool _isLoading = true;
   String _token = '';
 
   @override
@@ -36,8 +37,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
       content = journalDetails['content'];
       date = journalDetails['entryDate'];
       moodRating = journalDetails['moodRating'];
-      id = journalDetails['id']; 
-      _isLoading = false;
+      id = journalDetails['id'];
     });
   }
 
@@ -69,7 +69,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
       case 5:
         return 'assets/images/cry.png';
       default:
-        return 'assets/images/happy.png'; 
+        return 'assets/images/happy.png';
     }
   }
 
@@ -103,14 +103,6 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text(
-                'Cancel',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 16,
-                  color: Color(0xFF9B968E),
-                ),
-              ),
               style: TextButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -125,6 +117,14 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                   vertical: 10,
                 ),
               ),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 16,
+                  color: Color(0xFF9B968E),
+                ),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -132,14 +132,6 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                 Navigator.of(context).pop();
                 Navigator.pushNamed(context, '/journal');
               },
-              child: const Text(
-                'Delete',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-              ),
               style: TextButton.styleFrom(
                 backgroundColor: const Color(0xFFF8485A),
                 shape: RoundedRectangleBorder(
@@ -148,6 +140,14 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 10,
+                ),
+              ),
+              child: const Text(
+                'Delete',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 16,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -170,7 +170,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
                       color: Color(0xff3C270B),
                     ),
@@ -185,7 +185,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 100),
                         child: Text(
                           formatDate(date),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xff666159),
                             fontFamily: 'Nunito',
                             fontSize: 20,
@@ -207,10 +207,10 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                     width: 50,
                     height: 50,
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xff666159),
                       fontFamily: 'Nunito',
                       fontSize: 20,
@@ -224,14 +224,14 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
               padding: const EdgeInsets.all(30),
               child: Text(
                 content,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Roboto',
                   fontSize: 13,
                   color: Color(0xff666159),
                 ),
               ),
             ),
-            SizedBox(height: 200), // Spacer between content and buttons
+            const SizedBox(height: 200), // Spacer between content and buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -249,7 +249,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                       },
                     );
                   },
-                  icon: Icon(Icons.edit),
+                  icon: const Icon(Icons.edit),
                   label: const Text(
                     'Edit',
                     style: TextStyle(
@@ -260,11 +260,11 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Color(0xFF9B968E),
+                    backgroundColor: const Color(0xFF9B968E),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 10,
                     ),
@@ -272,7 +272,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                 ),
                 ElevatedButton.icon(
                   onPressed: _showDeleteDialog,
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   label: const Text(
                     'Delete',
                     style: TextStyle(
@@ -283,11 +283,11 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Color(0xFFF8485A),
+                    backgroundColor: const Color(0xFFF8485A),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 10,
                     ),
@@ -295,7 +295,8 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                 ),
               ],
             ),
-            SizedBox(height: 50), // Bottom padding for better visual separation
+            const SizedBox(
+                height: 50), // Bottom padding for better visual separation
           ],
         ),
       ),

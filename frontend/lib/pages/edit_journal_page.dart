@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:frontend/component/e_primary_header_container.dart';
 import 'package:frontend/component/emotion_show_and_select.dart';
@@ -6,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/component/on_confirm_dialog.dart';
 
 class EditJournalPage extends StatefulWidget {
+  const EditJournalPage({super.key});
+
   @override
   State<EditJournalPage> createState() => _EditJournalPageState();
 }
@@ -91,8 +95,8 @@ class _EditJournalPageState extends State<EditJournalPage> {
         _contentController.text.isEmpty ||
         _selectedDate == null ||
         _selectedEmotion == 0) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('All fields are required')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('All fields are required')));
       return;
     }
     showDialog(
@@ -123,8 +127,8 @@ class _EditJournalPageState extends State<EditJournalPage> {
                 },
               );
             } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to update journal entry')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Failed to update journal entry')));
             }
           },
           onCancel: () {
@@ -230,7 +234,7 @@ class _EditJournalPageState extends State<EditJournalPage> {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Color(0xff3C270B),
+                                  color: const Color(0xff3C270B),
                                   width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(10.0),
@@ -262,7 +266,7 @@ class _EditJournalPageState extends State<EditJournalPage> {
                                       child: Icon(
                                         Icons.calendar_month,
                                         color: _selectedDate != null
-                                            ? Color(0xff3C270B)
+                                            ? const Color(0xff3C270B)
                                             : Colors.grey,
                                       ),
                                     ),
@@ -285,11 +289,11 @@ class _EditJournalPageState extends State<EditJournalPage> {
                         const SizedBox(height: 2),
                         TextField(
                           controller: _titleController,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'Roboto',
                               fontSize: 14,
                               color: Colors.black),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
@@ -301,7 +305,7 @@ class _EditJournalPageState extends State<EditJournalPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         const Text(
                           'Content',
                           style: TextStyle(
@@ -314,12 +318,12 @@ class _EditJournalPageState extends State<EditJournalPage> {
                         const SizedBox(height: 2),
                         TextField(
                           controller: _contentController,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'Roboto',
                               fontSize: 14,
                               color: Colors.black),
                           maxLines: maxLines,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
@@ -332,7 +336,7 @@ class _EditJournalPageState extends State<EditJournalPage> {
                           ),
                           textAlignVertical: TextAlignVertical.top,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         Row(
@@ -352,7 +356,22 @@ class _EditJournalPageState extends State<EditJournalPage> {
                                   },
                                 );
                               },
-                              child: Text(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: const Color(0xFF9B968E),
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: const BorderSide(
+                                    color: Color(0xFF9B968E),
+                                    width: 1,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 10,
+                                ),
+                              ),
+                              child: const Text(
                                 'Cancel',
                                 style: TextStyle(
                                   fontFamily: 'Inter',
@@ -360,27 +379,23 @@ class _EditJournalPageState extends State<EditJournalPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Color(0xFF9B968E),
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: BorderSide(
-                                    color: Color(0xFF9B968E),
-                                    width: 1,
-                                  ),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                ),
-                              ),
                             ),
                             ElevatedButton(
                               onPressed: () {
                                 _updateJournalEntry();
                               },
-                              child: Text(
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: const Color(0xFF64D79C),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 10,
+                                ),
+                              ),
+                              child: const Text(
                                 'Save',
                                 style: TextStyle(
                                   fontFamily: 'Inter',
@@ -388,21 +403,10 @@ class _EditJournalPageState extends State<EditJournalPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Color(0xFF64D79C),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 10,
-                                ),
-                              ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                       ],

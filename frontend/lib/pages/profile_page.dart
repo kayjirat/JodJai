@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:frontend/component/checkout.dart';
 import 'package:frontend/component/logOutButton.dart';
@@ -9,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfilePage extends StatefulWidget {
   //final Function? refreshCallback;
   //const ProfilePage({Key? key, this.refreshCallback}) : super(key: key);
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -270,7 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         flex: 8,
                         child: Text(
                           'Membership: $_status',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'Nunito',
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,

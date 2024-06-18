@@ -7,8 +7,8 @@ class EditGoalPage extends StatefulWidget {
   final String deadline;
   final List<String> subGoals;
 
-  EditGoalPage(
-      {required this.goalTitle,
+  const EditGoalPage(
+      {super.key, required this.goalTitle,
       required this.deadline,
       required this.subGoals});
 
@@ -19,7 +19,7 @@ class EditGoalPage extends StatefulWidget {
 class _EditGoalPageState extends State<EditGoalPage> {
   final TextEditingController _goalController =
       TextEditingController();
-  List<String> _subGoals = [];
+  final List<String> _subGoals = [];
   DateTime? _selectedDate;
   List<bool> _subGoalCheckboxValues = []; // Maintain checkbox state
 
@@ -100,6 +100,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
         false); // Set initial value for sub-goal checkbox values
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -107,7 +108,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
           children: [
             const EPrimaryHeaderContainer(
               child: Padding(
-                padding: const EdgeInsets.only(top: 110.0, left: 20),
+                padding: EdgeInsets.only(top: 110.0, left: 20),
                 child: Column(
                   children: [
                     Text(
@@ -229,7 +230,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
                           Expanded(
                             child: Text(
                               _subGoals[index],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'Roboto',
                                 fontSize: 14,
                                 color: Colors.black,
@@ -237,7 +238,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                             onPressed: () => _removeSubGoal(index),
                           ),
                         ],
@@ -249,19 +250,19 @@ class _EditGoalPageState extends State<EditGoalPage> {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor:
-                          Color(0xFF3C270B), // Text color
+                          const Color(0xFF3C270B), // Text color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             10), // Rounded corners
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 20), // Padding
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 12,
                       ),
                     ),
-                    child: Text('+ Add New Sub-goal'),
+                    child: const Text('+ Add New Sub-goal'),
                   ),
                 ],
               ),
@@ -273,7 +274,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 40, bottom: 20.0),
+                    padding: const EdgeInsets.only(top: 40, bottom: 20.0),
                     child: SizedBox(
                       width:
                           200, // Set button width to match the parent width
@@ -283,31 +284,31 @@ class _EditGoalPageState extends State<EditGoalPage> {
                               context); // Navigate back to the previous screen
                         },
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Color(0xff8B8782),
+                          foregroundColor: const Color(0xff8B8782),
                           backgroundColor: Colors.white, // Text color
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 15,
                             horizontal: 20,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
-                            side: BorderSide(
+                            side: const BorderSide(
                               color: Color(0xff8B8782),
                               width: 1,
                             ),
                           ),
                         ),
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                       ),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 40, bottom: 20.0),
+                    padding: const EdgeInsets.only(top: 40, bottom: 20.0),
                     child: SizedBox(
                       width:
                           200, // Set button width to match the parent width
@@ -318,20 +319,20 @@ class _EditGoalPageState extends State<EditGoalPage> {
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor:
-                              Color(0xff64D79C), // Text color
-                          textStyle: TextStyle(
+                              const Color(0xff64D79C), // Text color
+                          textStyle: const TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 20),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 20.0), // Set border radius
                           ),
                         ),
-                        child: Text('Save'),
+                        child: const Text('Save'),
                       ),
                     ),
                   ),

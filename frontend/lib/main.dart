@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/component/checkout.dart';
@@ -30,56 +32,56 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: '/landing',
           page: () =>
-              LandingPage(), // Define your landing page widget
+              const LandingPage(), // Define your landing page widget
         ),
         GetPage(
           name: '/journal',
-          page: () => MainScaffold(
-            body: const JournalListPage(),
+          page: () => const MainScaffold(
+            body: JournalListPage(),
             selectedIndex: 0,
           ),
         ),
         GetPage(
           name: '/weeklySummary',
-          page: () => MainScaffold(
+          page: () => const MainScaffold(
             body: WeeklySumPage(),
             selectedIndex: 1,
           ),
         ),
         GetPage(
           name: '/profile',
-          page: () => MainScaffold(
+          page: () => const MainScaffold(
             body: ProfilePage(),
             selectedIndex: 2,
           ),
         ),
         GetPage(
           name: '/journalDetail',
-          page: () => Scaffold(
+          page: () => const Scaffold(
             body: JournalDetailPage(),       
           ),
         ),
         GetPage(
           name: '/newJournal',
-          page: () => Scaffold(
+          page: () => const Scaffold(
             body: NewJournalPage(),
           ),
         ),
         GetPage(
           name: '/editJournal',
-          page: () => Scaffold(
+          page: () => const Scaffold(
             body: EditJournalPage(),
           ),
         ),
         GetPage(
           name: '/checkout',
-          page: () => Scaffold(
+          page: () => const Scaffold(
             body: CheckoutButton(),
           ),
         ),
         GetPage(
           name: '/success',
-          page: () => Scaffold(
+          page: () => const Scaffold(
             body: MyWidget(),
           ),
         ),

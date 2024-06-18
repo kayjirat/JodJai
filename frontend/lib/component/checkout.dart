@@ -1,9 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:frontend/services/stripe_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckoutButton extends StatefulWidget {
-  const CheckoutButton({Key? key}) : super(key: key);
+  const CheckoutButton({super.key});
 
   @override
   _CheckoutButtonState createState() => _CheckoutButtonState();
@@ -54,7 +56,7 @@ class _CheckoutButtonState extends State<CheckoutButton> {
             Navigator.pushReplacementNamed(context, '/cancel');
           },
           onError: (e) {
-            print("Error: " + e.toString());
+            print("Error: $e");
             Navigator.pushReplacementNamed(context, '/error');
           },
          token: _token,

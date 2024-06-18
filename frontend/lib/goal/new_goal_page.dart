@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/component/e_primary_header_container.dart';
 
 class NewGoalPage extends StatefulWidget {
-  const NewGoalPage({Key? key}) : super(key: key);
+  const NewGoalPage({super.key});
 
   @override
   State<NewGoalPage> createState() => _NewGoalPageState();
@@ -11,9 +11,9 @@ class NewGoalPage extends StatefulWidget {
 class _NewGoalPageState extends State<NewGoalPage> {
   final TextEditingController _goalController =
       TextEditingController();
-  List<String> _subGoals = [];
+  final List<String> _subGoals = [];
   DateTime? _selectedDate;
-  List<bool> _subGoalCheckboxValues = []; // Maintain checkbox state
+  final List<bool> _subGoalCheckboxValues = []; // Maintain checkbox state
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -87,7 +87,7 @@ class _NewGoalPageState extends State<NewGoalPage> {
           children: [
             const EPrimaryHeaderContainer(
               child: Padding(
-                padding: const EdgeInsets.only(top: 110.0, left: 20),
+                padding: EdgeInsets.only(top: 110.0, left: 20),
                 child: Column(
                   children: [
                     Text(
@@ -201,14 +201,14 @@ class _NewGoalPageState extends State<NewGoalPage> {
                           Expanded(
                             child: Text(
                               _subGoals[index],
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontFamily: 'Roboto',
                                   fontSize: 14,
                                   color: Colors.black),
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                             onPressed: () => _removeSubGoal(index),
                           ),
                         ],
@@ -220,25 +220,25 @@ class _NewGoalPageState extends State<NewGoalPage> {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor:
-                          Color(0xFF3C270B), // Text color
+                          const Color(0xFF3C270B), // Text color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             10), // Rounded corners
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 20), // Padding
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 12,
                       ),
                     ),
-                    child: Text('+ Add New Sub-goal'),
+                    child: const Text('+ Add New Sub-goal'),
                   ),
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 40, bottom: 20.0),
+              padding: const EdgeInsets.only(top: 40, bottom: 20.0),
               child: SizedBox(
                 width:
                     300, // Set button width to match the parent width
@@ -248,20 +248,20 @@ class _NewGoalPageState extends State<NewGoalPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Color(0xff64D79C), // Text color
-                    textStyle: TextStyle(
+                    backgroundColor: const Color(0xff64D79C), // Text color
+                    textStyle: const TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           20.0), // Set border radius
                     ),
                   ),
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 ),
               ),
             ),

@@ -12,7 +12,7 @@ class _GoalSettingPageState extends State<GoalSettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFEFBF6),
+      backgroundColor: const Color(0xFFFEFBF6),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -67,10 +67,10 @@ class _GoalSettingPageState extends State<GoalSettingPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NewGoalPage()),
+                          builder: (context) => const NewGoalPage()),
                     );
                   },
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   label: const Text(
                     'Add Goal',
                     style: TextStyle(
@@ -80,11 +80,11 @@ class _GoalSettingPageState extends State<GoalSettingPage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Color(0xFF3C270B),
+                    backgroundColor: const Color(0xFF3C270B),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
                   ),
                 ),

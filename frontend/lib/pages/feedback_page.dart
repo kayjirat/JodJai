@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/component/on_confirm_dialog.dart';
-
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({super.key});
@@ -15,14 +16,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
   late UserService _userService;
   String _token = '';
   final TextEditingController _feedbackController = TextEditingController();
-  
+
   @override
   void initState() {
     super.initState();
     _userService = UserService();
     _loadTokenFromSharedPreferences();
   }
-  
+
   Future<void> _loadTokenFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token') ?? '';
@@ -44,22 +45,23 @@ class _FeedbackPageState extends State<FeedbackPage> {
           title: 'Feedback',
           content: 'Are you sure you want to submit feedback?',
           onConfirm: () async {
-            final response = await _userService.sendFeedback(_token, _feedbackController.text);
-    if (response == 'Feedback submitted') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Feedback submitted'),
-        ),
-      );
-      _feedbackController.clear();
-      Navigator.pushNamed(context, '/profile');
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to submit feedback'),
-        ),
-      );
-    }
+            final response = await _userService.sendFeedback(
+                _token, _feedbackController.text);
+            if (response == 'Feedback submitted') {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Feedback submitted'),
+                ),
+              );
+              _feedbackController.clear();
+              Navigator.pushNamed(context, '/profile');
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Failed to submit feedback'),
+                ),
+              );
+            }
           },
           onCancel: () {
             Navigator.of(context).pop();
@@ -67,10 +69,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
         );
       },
     );
-    
-    
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,7 +192,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ),
                           maxLines: 6,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ),

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class EmotionShowAndSelect extends StatefulWidget {
@@ -43,7 +45,7 @@ class _EmotionShowAndSelectState extends State<EmotionShowAndSelect> {
   Widget buildEmotionButton(int emotion, String normalImage, String tappedImage) {
     return InkWell(
       onTap: () => _onEmotionTap(emotion),
-      child: Container(
+      child: SizedBox(
         width: 55,
         height: 55,
         child: Image.asset(

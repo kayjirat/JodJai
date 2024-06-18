@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/component/on_confirm_dialog.dart';
 
 class NewJournalPage extends StatefulWidget {
-  NewJournalPage({Key? key}) : super(key: key);
+  const NewJournalPage({super.key});
 
   @override
   State<NewJournalPage> createState() => _NewJournalPageState();
@@ -51,7 +51,6 @@ class _NewJournalPageState extends State<NewJournalPage> {
   }
 
   void _saveJournalEntry() async {
-    print('Saving journal entry');
 
     if (_titleController.text.isEmpty ||
         _contentController.text.isEmpty ||
@@ -129,8 +128,8 @@ class _NewJournalPageState extends State<NewJournalPage> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30.0),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 30.0),
                     child: Text(
                       'New Journal',
                       style: TextStyle(
@@ -185,7 +184,7 @@ class _NewJournalPageState extends State<NewJournalPage> {
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color(0xff3C270B),
+                            color: const Color(0xff3C270B),
                             width: 1.0, // Adjust border width as needed
                           ),
                           borderRadius: BorderRadius.circular(
@@ -219,7 +218,7 @@ class _NewJournalPageState extends State<NewJournalPage> {
                                 child: Icon(
                                   Icons.calendar_month,
                                   color: _selectedDate != null
-                                      ? Color(0xff3C270B)
+                                      ? const Color(0xff3C270B)
                                       : Colors.grey,
                                 ),
                               ),
@@ -292,19 +291,19 @@ class _NewJournalPageState extends State<NewJournalPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Color(0xff64D79C), // Text color
-                    textStyle: TextStyle(
+                    backgroundColor: const Color(0xff64D79C), // Text color
+                    textStyle: const TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(20.0), // Set border radius
                     ),
                   ),
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 ),
               ),
             ),

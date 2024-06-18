@@ -3,14 +3,14 @@ import 'package:frontend/component/e_primary_header_container.dart';
 import 'package:frontend/goal/edit_goal_page.dart';
 
 class GoalDetailPage extends StatefulWidget {
-  const GoalDetailPage({Key? key}) : super(key: key);
+  const GoalDetailPage({super.key});
 
   @override
   State<GoalDetailPage> createState() => _GoalDetailPageState();
 }
 
 class _GoalDetailPageState extends State<GoalDetailPage> {
-  List<bool> _subGoalChecklist = List.generate(
+  final List<bool> _subGoalChecklist = List.generate(
       5, (index) => false); // Initialize a list of checkboxes
 
   @override
@@ -20,9 +20,9 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            EPrimaryHeaderContainer(
+            const EPrimaryHeaderContainer(
               child: Padding(
-                padding: const EdgeInsets.only(top: 110.0, left: 20),
+                padding: EdgeInsets.only(top: 110.0, left: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -39,8 +39,8 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
+            const Padding(
+              padding: EdgeInsets.symmetric(
                   horizontal: 20, vertical: 10),
               child: Row(
                 children: [
@@ -53,7 +53,7 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                       color: Color(0xFF666159),
                     ),
                   ),
-                  const SizedBox(width: 20),
+                  SizedBox(width: 20),
                   Text(
                     '11/06/2024',
                     style: TextStyle(
@@ -64,8 +64,8 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
+            const Padding(
+              padding: EdgeInsets.symmetric(
                   horizontal: 20, vertical: 10),
               child: Text(
                 'Sub-goals',
@@ -79,7 +79,7 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
             ),
             ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: 5, // Number of sub-goals
               itemBuilder: (context, index) {
                 return ListTile(
@@ -94,7 +94,7 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                   ),
                   title: Text(
                     'Sub-goal ${index + 1}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 14,
                       color: Colors.black,
@@ -128,7 +128,7 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                         ),
                       );
                     },
-                    icon: Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                     label: const Text(
                       'Edit',
                       style: TextStyle(
@@ -139,11 +139,11 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                     ),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Color(0xFF9B968E),
+                      backgroundColor: const Color(0xFF9B968E),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 10,
                       ),
@@ -151,7 +151,7 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     label: const Text(
                       'Delete',
                       style: TextStyle(
@@ -162,11 +162,11 @@ class _GoalDetailPageState extends State<GoalDetailPage> {
                     ),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Color(0xFFF8485A),
+                      backgroundColor: const Color(0xFFF8485A),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 10,
                       ),

@@ -8,13 +8,13 @@ class JournalCard extends StatelessWidget {
   final int id;
 
   const JournalCard({
-    Key? key,
+    super.key,
     required this.id,
     required this.title,
     required this.content,
     required this.entryDate,
     required this.moodRating,
-  }) : super(key: key);
+  });
 
   String getMoodImage(int moodRating) {
     switch (moodRating) {
@@ -42,7 +42,7 @@ class JournalCard extends StatelessWidget {
       },
       child: Container(
         width: 400,
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -51,7 +51,7 @@ class JournalCard extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: -5,
               blurRadius: 15.5,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: const Offset(1, 1), // changes position of shadow
             ),
           ],
         ),
@@ -65,7 +65,7 @@ class JournalCard extends StatelessWidget {
                 width: 50,
                 height: 50,
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ class JournalCard extends StatelessWidget {
                       title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
