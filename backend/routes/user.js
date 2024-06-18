@@ -57,7 +57,7 @@ router.get('/check', verifyJWT, async (req, res) => {
         const accountAgeDays = result.recordset[0].account_age;
         console.log(membershipStatus)
         console.log(accountAgeDays)
-        if ((membershipStatus === true && accountAgeDays <= 3) || (membershipStatus === false && accountAgeDays <= 3)) {
+        if ((membershipStatus === true && accountAgeDays <= 3) || (membershipStatus === false && accountAgeDays <= 3) || (membershipStatus === true && accountAgeDays >= 3)) {
             return res.status(200).json(true); 
         }
         res.status(200).json(false);
@@ -79,7 +79,7 @@ router.get('/membership', verifyJWT, async (req, res) => {
             .query('SELECT member_status FROM Memberships WHERE user_id = @user_id');
         res.status(200).json(result.recordset[0]);
     } catch (err) {
-        console.error('SQL error'                                                                                                       , err);
+        console.error('SQL error', err);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -88,7 +88,7 @@ router.post('/membership', verifyJWT, async (req, res) => {
     const user_id = req.user.user_id;
     const {stripe_payment_id} = req.body;
     const created_at = getCurrentDateTimeUTC7();
-    const memberstatus = 1;
+    const payment_status = 1;
     if (!user_id || !stripe_payment_id) {
         return res.status(400).send('Bad Request');
     }
@@ -98,8 +98,11 @@ router.post('/membership', verifyJWT, async (req, res) => {
             .input('user_id', sql.Int, user_id)
             .input('stripe_payment_id', sql.NVarChar, stripe_payment_id)
             .input('created_at', sql.DateTime, created_at)
-            .input('memberstatus', sql.Int, memberstatus)
-            .query('INSERT INTO Memberships (user_id, stripe_payment_id, created_at, memberstatus) VALUES (@user_id, @stripe_payment_id, @created_at, @memberstatus)');
+            .input('payment_status', sql.Bit, payment_status)
+            .query('INSERT INTO Memberships (user_id, stripe_payment_id, created_at, payment_status) VALUES (@user_id, @stripe_payment_id, @created_at, @payment_status)');
+        const user = await pool.request()
+            .input('user_id', sql.Int, user_id)
+            .query('UPDATE Users SET member_status = 1 WHERE user_id = @user_id');
         res.status(201).send('Membership created');
     } catch (err) {
         console.error('SQL error', err);
