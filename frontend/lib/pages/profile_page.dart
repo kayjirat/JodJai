@@ -7,8 +7,9 @@ import 'package:frontend/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
-
+  //final Function? refreshCallback;
+  //const ProfilePage({Key? key, this.refreshCallback}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -28,6 +29,9 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _userService = UserService();
     _loadTokenAndGetInfo();
+    // if(widget.refreshCallback != null) {
+    //   widget.refreshCallback!();
+    // }
   }
 
   Future<void> _loadTokenAndGetInfo() async {
@@ -45,6 +49,10 @@ class _ProfilePageState extends State<ProfilePage> {
         print('Failed to get user info: $e');
       }
     }
+  }
+
+  void refreshUserData() {
+    _loadTokenAndGetInfo();
   }
 
   Future<void> _loadTokenFromSharedPreferences() async {
@@ -282,7 +290,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               if (!_isMember) const SizedBox(height: 20),
-              if (!_isMember) const CheckoutButton(),
+              if (!_isMember) const CheckoutButton(
+               // onSuccessCallback: refreshUserData, 
+              ),
               if (!_isMember) const SizedBox(height: 20),
             ],
           ),

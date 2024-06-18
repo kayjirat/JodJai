@@ -71,7 +71,7 @@ class MainApp extends StatelessWidget {
             body: EditJournalPage(),
           ),
         ),
-         GetPage(
+        GetPage(
           name: '/checkout',
           page: () => Scaffold(
             body: CheckoutButton(),

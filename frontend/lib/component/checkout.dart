@@ -1,8 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/stripe_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class CheckoutButton extends StatelessWidget {
+class CheckoutButton extends StatefulWidget {
   const CheckoutButton({Key? key}) : super(key: key);
+
+  @override
+  _CheckoutButtonState createState() => _CheckoutButtonState();
+}
+
+class _CheckoutButtonState extends State<CheckoutButton> {
+  late SharedPreferences prefs;
+  late String _token = '';
+  late StripeService stripeService;
+
+  @override
+  void initState() {
+    super.initState();
+    initPrefs();
+  }
+
+  Future<void> initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = prefs.getString('token') ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +38,16 @@ class CheckoutButton extends StatelessWidget {
             "qty": 1,
           },
         ];
-        await StripeService.stripePaymentCheckout(
+
+        StripeService stripeService = StripeService();
+        await stripeService.stripePaymentCheckout(
           items,
           99,
           context,
           true,
           onSuccess: () {
             print("SUCCESS");
-            Navigator.pushReplacementNamed(context, '/success');
+            Navigator.pushReplacementNamed(context, '/profile');//, arguments: widget.onSuccessCallback);
           },
           onCancel: () {
             print("Cancel");
@@ -32,6 +57,7 @@ class CheckoutButton extends StatelessWidget {
             print("Error: " + e.toString());
             Navigator.pushReplacementNamed(context, '/error');
           },
+         token: _token,
         );
       },
       child: Container(

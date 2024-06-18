@@ -1,18 +1,21 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:stripe_checkout/stripe_checkout.dart';
 
 class StripeService {
-  static String secretKey =
-      "sk_test_51PRtSeLd274l8yopgPGPrdtzTjAz2ja83WQJgtV13abWqeh28eKpWaL6g23kZTyhhwmr8USdXRP6S3uKUB3q9uMi00OCwvWjAi";
-  static String publishableKey =
-      "pk_test_51PRtSeLd274l8yopdSnadyEX4ZtuBlyvebYdUh8ZltsSec3dx50d1EAhhXZrYMWtqEBffONOCWdYRmduJ7wdugw2008IemPt6T";
+  late final String baseUrl;
+  final String burl;
+  StripeService() : burl = dotenv.env['BASE_URL'] ?? '' {
+    baseUrl = '$burl/user';
+  }
+
+  static String secretKey = dotenv.env['STRIPE_SECRET_KEY'] ?? '';
+  static String publishableKey = dotenv.env['STRIPE_PUBLISHABLE_KEY'] ?? '';
 
   static Future<String?> createCheckoutSession(
     List<dynamic> productItems,
     totalAmount,
-    String successUrl,
-    String cancelUrl,
   ) async {
     final url = Uri.parse("https://api.stripe.com/v1/checkout/sessions");
     String lineItems = "";
@@ -33,7 +36,7 @@ class StripeService {
       final response = await http.post(
         url,
         body:
-            'success_url=$successUrl&cancel_url=$cancelUrl&mode=payment$lineItems',
+            'success_url=https://checkout.stripe.dev/success&mode=payment$lineItems',
         headers: {
           'Authorization': 'Bearer $secretKey',
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -53,22 +56,21 @@ class StripeService {
     }
   }
 
-  static Future<dynamic> stripePaymentCheckout(
-    List<dynamic> productItems,
-    totalAmount,
+  Future<dynamic> stripePaymentCheckout(
+    productItems,
+    subTotal,
     context,
     mounted, {
+    required String token,
     onSuccess,
     onCancel,
     onError,
-    String successUrl = "http://localhost:8080/#/profile",
-    String cancelUrl = "http://localhost:8080/#/cancel",
+    String successUrl = "https://localhost:8080/#/profile",
+    String cancelUrl = "https://localhost:8080/#/cancel",
   }) async {
     final String? sessionId = await createCheckoutSession(
       productItems,
-      totalAmount,
-      successUrl,
-      cancelUrl,
+      subTotal,
     );
 
     if (sessionId == null) {
@@ -79,37 +81,47 @@ class StripeService {
       return;
     }
 
-    try {
-      final result = await redirectToCheckout(
-        context: context,
-        sessionId: sessionId,
-        publishableKey: publishableKey,
-        successUrl: successUrl,
-        canceledUrl: cancelUrl,
-      );
+    final result = await redirectToCheckout(
+      context: context,
+      sessionId: sessionId,
+      publishableKey: publishableKey,
+      successUrl: "https://checkout.stripe.dev/success",
+      canceledUrl: "https://checkout.stripe.dev/cancel",
+    );
 
-      if (mounted) {
-        result.when(
-          redirected: () {
-            print('Redirected Successfully');
-          },
-          success: () {
+    if (mounted) {
+      final text = result.when(
+        redirected: () => 'Redirected Successfully',
+        success: () async {
             print('Payment Successful');
-            onSuccess(); // Call your success callback
+          await createMembership(token, sessionId);
+            if (onSuccess != null) {
+              await onSuccess();
+            }
           },
-          canceled: () {
-            print('Payment Canceled');
-            onCancel(); // Call your cancel callback
-          },
-          error: (e) {
-            print('Payment Error: $e');
-            onError(e); // Call your error callback
-          },
-        );
-      }
-    } catch (e) {
-      print('Exception during payment: $e');
-      onError(e.toString()); // Handle any exceptions
+        canceled: () => onCancel(),
+        error: (e) => onError(e),
+      );
+      return text;
+    }
+  }
+
+  Future<void> createMembership(String token, String stripe_payment_id) async {
+    print(baseUrl);
+    final response = await http.post(
+      Uri.parse('$baseUrl/membership'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, String>{
+        'stripe_payment_id': stripe_payment_id,
+      }),
+    );
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create membership');
+    } else {
+      print('Membership created');
     }
   }
 }

@@ -45,5 +45,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs access to the camera for scanning QR codes.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to your location to provide better service.</string>
 </dict>
 </plist>
