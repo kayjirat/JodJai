@@ -103,4 +103,9 @@ route.post('/register', async (req, res) => {
     }
 });
 
+route.get('/logout', async (req, res) => {
+    res.clearCookie('token');
+    res.status(200).send('Logged out');
+});
+
 module.exports = route;
