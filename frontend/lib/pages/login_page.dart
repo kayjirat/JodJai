@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/services/auth_service.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -53,8 +54,10 @@ class _LoginPageState extends State<LoginPage> {
         final response = await _authService.login(email, password);
         final token = response['token'];
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-        Navigator.pushReplacementNamed(context, '/journal');
+        if (token.isNotEmpty) {
+          await prefs.setString('token', token);
+        }
+        Get.offAllNamed('/journal');
       } catch (e) {
         if (e.toString().contains('Wrong password')) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -211,12 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignupPage()),
-                                    );
+                                    Get.toNamed('/register');
                                   },
                                   child: const Text(
                                     "Create Account",
