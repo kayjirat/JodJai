@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/landing_page.dart';
+import 'package:frontend/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogOutButton extends StatelessWidget {
@@ -62,6 +63,7 @@ Future<void> _showConfirmationDialog(BuildContext context) async {
               try {
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.remove('token');
+                AuthService().logout();
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LandingPage()),
