@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/services/stripe_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class CheckoutButton extends StatefulWidget {
   const CheckoutButton({super.key});
 
@@ -49,11 +50,11 @@ class _CheckoutButtonState extends State<CheckoutButton> {
           true,
           onSuccess: () {
             print("SUCCESS");
-            Navigator.pushReplacementNamed(context, '/profile');//, arguments: widget.onSuccessCallback);
+            Navigator.pushReplacementNamed(context, '/profile');
           },
           onCancel: () {
             print("Cancel");
-            Navigator.pushReplacementNamed(context, '/cancel');
+            Navigator.pushReplacementNamed(context, '/profile');
           },
           onError: (e) {
             print("Error: $e");

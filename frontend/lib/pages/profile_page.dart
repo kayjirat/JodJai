@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/component/checkout.dart';
 import 'package:frontend/component/logOutButton.dart';
 import 'package:frontend/pages/feedback_page.dart';
+import 'package:frontend/services/stripe_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,22 +22,35 @@ class _ProfilePageState extends State<ProfilePage> {
   late bool _isMember = false;
   late String _status = '';
   final TextEditingController _nameController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   String _token = '';
+  String _paymentId = '';
+  String _sessionId = '';
   late UserService _userService;
+  late StripeService _stripeService;
 
   @override
   void initState() {
     super.initState();
     _userService = UserService();
+    _stripeService = StripeService();
     _loadTokenAndGetInfo();
-    // if(widget.refreshCallback != null) {
-    //   widget.refreshCallback!();
-    // }
   }
 
   Future<void> _loadTokenAndGetInfo() async {
     await _loadTokenFromSharedPreferences();
+    if (_sessionId.isNotEmpty) {
+      try {
+        final paymentId = await _stripeService.getPaymentIntentId(_sessionId);
+        if (paymentId != null) {
+          await _stripeService.createMembership(_token, paymentId);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.remove('sessionId');
+        }
+      } catch (e) {
+        print('Failed to get user info: $e');
+      }
+    }
     if (_token.isNotEmpty) {
       try {
         final response = await _userService.getUser(_token);
@@ -59,10 +73,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadTokenFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token') ?? '';
+    _sessionId = prefs.getString('sessionId') ?? '';
   }
 
   Future<void> _updateUsername() async {
-    if (_formKey.currentState?.validate() ?? false) {
+    if (_formKey1.currentState?.validate() ?? false) {
       try {
         final username = _nameController.text.trim();
         final response = await _userService.editUser(_token, username);
@@ -96,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _saveName() {
-    if (_formKey.currentState?.validate() ?? false) {
+    if (_formKey1.currentState?.validate() ?? false) {
       _updateUsername();
     }
   }
@@ -155,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       flex: 8,
                       child: Form(
-                        key: _formKey,
+                        key: _formKey1,
                         child: _isEditingName
                             ? TextFormField(
                                 controller: _nameController,
@@ -291,9 +306,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               if (!_isMember) const SizedBox(height: 20),
-              if (!_isMember) const CheckoutButton(
-               // onSuccessCallback: refreshUserData, 
-              ),
+              if (!_isMember)
+                const CheckoutButton(
+                    // onSuccessCallback: refreshUserData,
+                    ),
               if (!_isMember) const SizedBox(height: 20),
             ],
           ),
