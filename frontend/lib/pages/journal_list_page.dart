@@ -36,8 +36,7 @@ class _JournalListPageState extends State<JournalListPage> {
     'December'
   ];
 
-
-   @override
+  @override
   void initState() {
     super.initState();
     _journalService = JournalService();
@@ -46,7 +45,6 @@ class _JournalListPageState extends State<JournalListPage> {
     _selectedYear = now.year.toString();
     _loadTokenAndFetchJournalEntries();
   }
-
 
   Future<void> _loadTokenAndFetchJournalEntries() async {
     await _loadTokenFromSharedPreferences();
@@ -86,12 +84,14 @@ class _JournalListPageState extends State<JournalListPage> {
   //     });
   //   }
   // }
-  Future<void> _fetchJournalEntries({required int month, required int year}) async {
+  Future<void> _fetchJournalEntries(
+      {required int month, required int year}) async {
     setState(() {
       _isLoading = true;
     });
     try {
-      final entries = await _journalService.getJournalEntriesByDate(_token, month, year);
+      final entries = await _journalService.getJournalEntriesByDate(
+          _token, month, year);
       if (entries != null) {
         setState(() {
           _journals = entries;
@@ -100,7 +100,7 @@ class _JournalListPageState extends State<JournalListPage> {
       } else {
         setState(() {
           _isLoading = false;
-      });
+        });
       }
     } catch (e) {
       // ignore: avoid_print
@@ -118,7 +118,6 @@ class _JournalListPageState extends State<JournalListPage> {
     });
     _fetchJournalEntries(month: month, year: year);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -141,11 +140,19 @@ class _JournalListPageState extends State<JournalListPage> {
                   color: Color(0xFF666159),
                 ),
               ),
+              SizedBox(height: 20,),
               Row(
-                children: [MonthYearDropdown(onMonthYearChanged: _onMonthYearChanged)],
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  MonthYearDropdown(
+                      onMonthYearChanged: _onMonthYearChanged),
+                  SizedBox(
+                    width: 80,
+                  )
+                ],
               ),
               const SizedBox(
-                height: 90,
+                height: 70,
               ),
               _isLoading
                   ? const CircularProgressIndicator()

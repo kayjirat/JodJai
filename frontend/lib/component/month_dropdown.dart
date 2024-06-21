@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class MonthYearDropdown extends StatefulWidget {
   final Function(int, int) onMonthYearChanged;
 
-  const MonthYearDropdown({super.key, required this.onMonthYearChanged});
+  const MonthYearDropdown(
+      {super.key, required this.onMonthYearChanged});
 
   @override
   _MonthYearDropdownState createState() => _MonthYearDropdownState();
@@ -30,7 +31,7 @@ class _MonthYearDropdownState extends State<MonthYearDropdown> {
     'December'
   ];
 
-  List<String> _years = ['2023', '2024', '2025', '2026'];
+  List<String> _years = [];
 
   @override
   void initState() {
@@ -38,6 +39,9 @@ class _MonthYearDropdownState extends State<MonthYearDropdown> {
     DateTime now = DateTime.now();
     _selectedMonth = _months[now.month - 1];
     _selectedYear = now.year.toString();
+    _years =
+        List.generate(3, (index) => (now.year - index).toString());
+    _years.sort();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _notifyParent();
     });
@@ -81,7 +85,8 @@ class _MonthYearDropdownState extends State<MonthYearDropdown> {
       ),
       child: DropdownButton<String>(
         value: selectedValue,
-        icon: const Icon(Icons.arrow_drop_down_rounded, color: Color(0xff3C270B)),
+        icon: const Icon(Icons.arrow_drop_down_rounded,
+            color: Color(0xff3C270B)),
         iconSize: 24,
         elevation: 16,
         style: const TextStyle(

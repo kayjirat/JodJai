@@ -21,7 +21,8 @@ class _ProfilePageState extends State<ProfilePage> {
   late String _name = '';
   late bool _isMember = false;
   late String _status = '';
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
   String _token = '';
   String _paymentId = '';
@@ -41,10 +42,12 @@ class _ProfilePageState extends State<ProfilePage> {
     await _loadTokenFromSharedPreferences();
     if (_sessionId.isNotEmpty) {
       try {
-        final paymentId = await _stripeService.getPaymentIntentId(_sessionId);
+        final paymentId =
+            await _stripeService.getPaymentIntentId(_sessionId);
         if (paymentId != null) {
           await _stripeService.createMembership(_token, paymentId);
-          SharedPreferences prefs = await SharedPreferences.getInstance();
+          SharedPreferences prefs =
+              await SharedPreferences.getInstance();
           prefs.remove('sessionId');
         }
       } catch (e) {
@@ -80,7 +83,8 @@ class _ProfilePageState extends State<ProfilePage> {
     if (_formKey1.currentState?.validate() ?? false) {
       try {
         final username = _nameController.text.trim();
-        final response = await _userService.editUser(_token, username);
+        final response =
+            await _userService.editUser(_token, username);
         if (response == 'User updated') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -165,7 +169,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 child: Row(
                   children: [
-                    const Expanded(flex: 0, child: Icon(Icons.person)),
+                    const Expanded(
+                        flex: 0, child: Icon(Icons.person)),
                     const SizedBox(width: 20),
                     Expanded(
                       flex: 8,
@@ -182,7 +187,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                     color: Color(0xFF666159),
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
                                       color: Colors.black,
                                     ),
@@ -194,7 +200,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   color: Color(0xFF3C270B),
                                 ),
                                 validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                                  if (value == null ||
+                                      value.isEmpty) {
                                     return 'Please enter a name';
                                   }
                                   return null;
@@ -217,7 +224,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: _isEditingName ? Colors.green : Colors.white,
+                          color: _isEditingName
+                              ? Colors.green
+                              : Colors.white,
                         ),
                         padding: const EdgeInsets.all(5),
                         child: Icon(

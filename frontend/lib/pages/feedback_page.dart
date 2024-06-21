@@ -15,7 +15,8 @@ class FeedbackPage extends StatefulWidget {
 class _FeedbackPageState extends State<FeedbackPage> {
   late UserService _userService;
   String _token = '';
-  final TextEditingController _feedbackController = TextEditingController();
+  final TextEditingController _feedbackController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -95,12 +96,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.only(top: 45.0, left: 10.0, right: 20.0),
+              padding: const EdgeInsets.only(
+                  top: 45.0, left: 10.0, right: 20.0),
               child: IconButton(
                 icon: const Icon(
                   Icons.arrow_back,
-                  color: Colors.black,
+                  color: Color(0xff3C270B),
                   size: 30,
                 ),
                 onPressed: () {
@@ -136,7 +137,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(40.0, 200.0, 40.0, 0),
+              padding:
+                  const EdgeInsets.fromLTRB(40.0, 200.0, 40.0, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -166,8 +168,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   const SizedBox(height: 10),
                   Container(
                     height: 200,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 0),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       color: const Color(0xFFFEFBF6),
@@ -202,9 +204,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         _sendFeedback();
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF64D79C)),
-                        padding: MaterialStateProperty.all<EdgeInsets>(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                                const Color(0xFF64D79C)),
+                        padding:
+                            MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 80),
                         ),

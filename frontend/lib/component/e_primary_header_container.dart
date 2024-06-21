@@ -16,7 +16,7 @@ class EPrimaryHeaderContainer extends StatelessWidget {
       child: SizedBox(
         width: double
             .infinity, // Set the width to span the entire width of the page
-        height: 150,
+        height: 160,
         child: Container(
           color: const Color(0xFFB1EACD),
           padding: const EdgeInsets.only(bottom: 0),

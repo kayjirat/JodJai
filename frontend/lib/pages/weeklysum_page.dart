@@ -20,8 +20,6 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
   bool _isLoading = true;
   String _token = '';
   List<WeeklySummary> _weeklySummary = [];
-  
-  
 
   @override
   void initState() {
@@ -40,7 +38,7 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     await _loadTokenFromSharedPreferences();
     if (_token.isNotEmpty) {
       try {
-        final response  = await _userService.checkMembership(_token);
+        final response = await _userService.checkMembership(_token);
         setState(() {
           _isMember = response;
         });
@@ -48,13 +46,13 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
           _fetchWeeklySummary();
         }
       } catch (e) {
-        print('Failed to get user info: $e'); 
+        print('Failed to get user info: $e');
       }
     }
     setState(() {
       _isLoading = false;
     });
-  } 
+  }
 
   Future<void> _fetchWeeklySummary() async {
     setState(() {
@@ -70,13 +68,16 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     }
   }
 
-  List<WeeklySummary> _completeMoodSummary(List<WeeklySummary> summary) {
-    final List<WeeklySummary> completeSummary = List.generate(5, (index) {
+  List<WeeklySummary> _completeMoodSummary(
+      List<WeeklySummary> summary) {
+    final List<WeeklySummary> completeSummary =
+        List.generate(5, (index) {
       final moodRating = index + 1;
       return WeeklySummary(moodRating: moodRating, moodPercentage: 0);
     });
     for (var item in summary) {
-      final index = completeSummary.indexWhere((mood) => mood.moodRating == item.moodRating);
+      final index = completeSummary
+          .indexWhere((mood) => mood.moodRating == item.moodRating);
       if (index != -1) {
         completeSummary[index] = item;
       }
@@ -85,7 +86,7 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     return completeSummary;
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFEFBF6),
@@ -174,44 +175,46 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     }
   }
 
-
-  Widget _buildProgressRow(
-      BuildContext context, String emojiPath, double progress, Color color) {
-    return Row(
-      children: [
-        Image.asset(
-          emojiPath,
-          width: 57.13,
-          height: 57.13,
-        ),
-        const SizedBox(width: 15),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: LinearProgressIndicator(
-                  value: progress,
-                  minHeight: 10,
-                  backgroundColor: const Color(0xFFDEDEDE),
-                  valueColor: AlwaysStoppedAnimation<Color>(color),
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                '${(progress * 100).toInt()}%',
-                style: const TextStyle(
-                  fontFamily: 'Nunito',
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF666159),
-                ),
-              ),
-            ],
+  Widget _buildProgressRow(BuildContext context, String emojiPath,
+      double progress, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
+      child: Row(
+        children: [
+          Image.asset(
+            emojiPath,
+            width: 57.13,
+            height: 57.13,
           ),
-        ),
-      ],
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    minHeight: 10,
+                    backgroundColor: const Color(0xFFDEDEDE),
+                    valueColor: AlwaysStoppedAnimation<Color>(color),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  '${(progress * 100).toInt()}%',
+                  style: const TextStyle(
+                    fontFamily: 'Nunito',
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF666159),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
