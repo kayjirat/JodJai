@@ -166,25 +166,27 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 40.0),
                         // button
-                        SizedBox(
-                          width: 356,
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: _login,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3C270B),
-                              foregroundColor: Colors.white,
-                              textStyle: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                        Center(
+                          child: SizedBox(
+                            width: 356,
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: _login,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3C270B),
+                                foregroundColor: Colors.white,
+                                textStyle: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
+                              child: const Text('Log in'),
                             ),
-                            child: const Text('Log in'),
                           ),
                         ),
                         const SizedBox(height: 10.0),

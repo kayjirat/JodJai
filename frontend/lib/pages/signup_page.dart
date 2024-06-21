@@ -203,27 +203,29 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         const SizedBox(height: 30.0),
                         // button
-                        SizedBox(
-                          width: 356,
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _signup();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF3C270B),
-                              foregroundColor: Colors.white,
-                              textStyle: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                        Center(
+                          child: SizedBox(
+                            width: 356,
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _signup();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3C270B),
+                                foregroundColor: Colors.white,
+                                textStyle: const TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
+                              child: const Text('Sign Up'),
                             ),
-                            child: const Text('Sign Up'),
                           ),
                         ),
                       ],
