@@ -33,6 +33,12 @@ class JournalCard extends StatelessWidget {
     }
   }
 
+  String formatDate(String date) {
+    DateTime dateTime = DateTime.parse(date);
+    date = '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    return date;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +85,15 @@ class JournalCard extends StatelessWidget {
                         fontFamily: 'Nunito',
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Color(0xff666159),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      formatDate(entryDate),
+                      style: const TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 12,
                         color: Color(0xff666159),
                       ),
                     ),
