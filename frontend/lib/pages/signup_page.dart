@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
@@ -63,6 +65,19 @@ class _SignupPageState extends State<SignupPage> {
         await prefs.setString('token', token);
         Navigator.pushReplacementNamed(context, '/journal');
       } catch (e) {
+        if(e.toString().contains('This email is already used')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Email already exists')),
+          );
+        } else if (e.toString().contains('This username is already used')) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Username already exists')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Registration failed')),
+          );
+        }
         print('Registration failed: $e');
       }
     }

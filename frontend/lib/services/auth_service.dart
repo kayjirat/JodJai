@@ -55,6 +55,10 @@ class AuthService {
     );
     if (response.statusCode == 201) {
       return json.decode(response.body);
+    } else if (response.statusCode == 400) {
+      throw Exception('This email is already used');
+    } else if (response.statusCode == 409) {
+      throw Exception('This username is already used');
     } else {
       throw Exception('Failed to register');
     }

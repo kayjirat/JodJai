@@ -71,13 +71,17 @@ route.post('/register', async (req, res) => {
     const created_at = getCurrentDateTimeUTC7();
     try {
         const pool = await sql.connect(dbConfig);
-        const userCheckResult = await pool.request()
+        const usernameCheckResult = await pool.request()
             .input('username', sql.NVarChar, username)
+            .query('SELECT * FROM Users WHERE username = @username');
+        const emailCheckResult = await pool.request()
             .input('email', sql.NVarChar, email)
-            .query('SELECT * FROM Users WHERE username = @username OR email = @email');
-
-        if (userCheckResult.recordset.length > 0) {
-            return res.status(409).send('User already exists');
+            .query('SELECT * FROM Users WHERE email = @email');
+        if (usernameCheckResult.recordset.length > 0) {
+            return res.status(409).send('Username already exists');
+        }
+        if (emailCheckResult.recordset.length > 0) {
+            return res.status(400).send('Email is already used');
         }
         await pool.request()
             .input('username', sql.NVarChar, username)
