@@ -1,15 +1,26 @@
 // ignore_for_file: avoid_print
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserService {
-  final String url;
+  
   late final String baseUrl;
-  UserService() : url = dotenv.env['BASE_URL'] ?? '' {
-    baseUrl = '$url/user';
+  UserService() {
+    final base = dotenv.env['BASE_URL'] ?? '';
+    final androidUrl = dotenv.env['ANDROID_URL'] ?? '';
+
+    if (kIsWeb || Platform.isIOS) {
+      baseUrl = '$base/user';
+    } else {
+      baseUrl = androidUrl.isNotEmpty ? '$androidUrl/user' : base;
+    }
   }
+
   
   Future<Map<String, dynamic>> getUser(String token) async {
     final response = await http.get(

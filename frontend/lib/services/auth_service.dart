@@ -1,14 +1,23 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthService {
-  final String url;
-  late final String baseUrl;
-  AuthService() : url = dotenv.env['BASE_URL'] ?? '' {
-    baseUrl = '$url/authen';
-  }
 
+  late final String baseUrl;
+   AuthService() {
+    final base = dotenv.env['BASE_URL'] ?? '';
+    final androidUrl = dotenv.env['ANDROID_URL'] ?? '';
+
+    if (kIsWeb || Platform.isIOS) {
+      baseUrl = '$base/authen';
+    } else {
+      baseUrl = '$androidUrl/authen';
+    }
+  }
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
@@ -26,6 +35,7 @@ class AuthService {
     } else if (response.statusCode == 401) {
       throw Exception('Wrong password');
     } else {
+      print(response.body);
       throw Exception('Failed to login');
     }
   }

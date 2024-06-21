@@ -1,16 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/services/auth_service.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    home: LoginPage(),
-  ));
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -47,7 +40,6 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      // All fields are valid, proceed with form submission
       try {
         final email = _emailController.text.trim();
         final password = _passwordController.text.trim();

@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -5,10 +7,17 @@ import  '../models/weekly_summary.dart';
 
 
 class JournalService {
-  final String url;
+
   late final String baseUrl;
-  JournalService() : url = dotenv.env['BASE_URL'] ?? '' {
-    baseUrl = '$url/journal';
+  JournalService() {
+    final base = dotenv.env['BASE_URL'] ?? '';
+    final androidUrl = dotenv.env['ANDROID_URL'] ?? '';
+
+    if (kIsWeb || Platform.isIOS) {
+      baseUrl = '$base/journal';
+    } else {
+      baseUrl = androidUrl.isNotEmpty ? '$androidUrl/journal' : base;
+    }
   }
 
   Future<void> createJournalEntry(String token, String title, String content, String entryDate, int moodRating) async {

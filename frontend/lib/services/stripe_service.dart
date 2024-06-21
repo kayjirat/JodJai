@@ -10,9 +10,16 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class StripeService {
   late final String baseUrl;
-  final String burl;
-  StripeService() : burl = dotenv.env['BASE_URL'] ?? '' {
-    baseUrl = '$burl/user';
+
+  StripeService() {
+    final base = dotenv.env['BASE_URL'] ?? '';
+    final androidUrl = dotenv.env['ANDROID_URL'] ?? '';
+
+    if (kIsWeb || Platform.isIOS) {
+      baseUrl = '$base/user';
+    } else {
+      baseUrl = androidUrl.isNotEmpty ? '$androidUrl/user' : base;
+    }
   }
 
   static String secretKey = dotenv.env['STRIPE_SECRET_KEY'] ?? '';
@@ -85,12 +92,9 @@ class StripeService {
     if (kIsWeb) {
       defaultSuccessUrl = webSuccessUrl;
       defaultCancelUrl = webCancelUrl;
-    } else if (Platform.isIOS) {
+    } else {
       defaultSuccessUrl = iosSuccessUrl;
       defaultCancelUrl = iosCancelUrl;
-    } else {
-      defaultSuccessUrl = webSuccessUrl;
-      defaultCancelUrl = webCancelUrl;
     }
 
     final String? sessionId = await createCheckoutSession(
@@ -99,6 +103,8 @@ class StripeService {
       successUrl ?? defaultSuccessUrl,
       cancelUrl ?? defaultCancelUrl,
     );
+
+    print(successUrl);
 
     if (sessionId == null) {
       print('Failed to create Stripe checkout session');
