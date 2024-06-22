@@ -5,6 +5,7 @@ import 'package:frontend/services/journal_service.dart';
 import 'package:frontend/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/weekly_summary.dart';
+import 'package:intl/intl.dart';
 
 class WeeklySumPage extends StatefulWidget {
   const WeeklySumPage({super.key});
@@ -20,14 +21,27 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
   bool _isLoading = true;
   String _token = '';
   List<WeeklySummary> _weeklySummary = [];
+  final List<DateTime> _weeks = [];
+  DateTime _selectedWeek = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     _userService = UserService();
     _journalService = JournalService();
+    _generateWeekList();
     _loadTokenAndGetInfo();
   }
+
+  void _generateWeekList() {
+  DateTime now = DateTime.now();
+  for (int i = 0; i < 12; i++) {
+    DateTime startOfWeek = now.subtract(Duration(days: now.weekday - DateTime.monday + 7 * i));
+    _weeks.add(startOfWeek);
+  }
+  _selectedWeek = _weeks.first;
+}
+
 
   Future<void> _loadTokenFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,7 +57,7 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
           _isMember = response;
         });
         if (_isMember) {
-          _fetchWeeklySummary();
+          _fetchWeeklySummary(_selectedWeek);
         }
       } catch (e) {
         print('Failed to get user info: $e');
@@ -54,24 +68,26 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     });
   }
 
-  Future<void> _fetchWeeklySummary() async {
+  Future<void> _fetchWeeklySummary(DateTime startOfWeek) async {
     setState(() {
       _isLoading = true;
     });
     try {
-      final response = await _journalService.getWeeklySummary(_token);
+      final response =
+          await _journalService.getWeeklySummary(_token, startOfWeek);
       setState(() {
         _weeklySummary = _completeMoodSummary(response);
       });
     } catch (e) {
       print('Failed to get weekly summary: $e');
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
-  List<WeeklySummary> _completeMoodSummary(
-      List<WeeklySummary> summary) {
-    final List<WeeklySummary> completeSummary =
-        List.generate(5, (index) {
+  List<WeeklySummary> _completeMoodSummary(List<WeeklySummary> summary) {
+    final List<WeeklySummary> completeSummary = List.generate(5, (index) {
       final moodRating = index + 1;
       return WeeklySummary(moodRating: moodRating, moodPercentage: 0);
     });
@@ -85,6 +101,11 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
 
     return completeSummary;
   }
+
+  String _formatDate(DateTime date) {
+    return DateFormat('MMM dd, yyyy').format(date);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +131,52 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 45.0),
+                      const SizedBox(height: 20.0),
+                      if (_isMember)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: SizedBox(
+                            width: 180,
+                            child: DropdownButtonFormField<DateTime>(
+                              value: _selectedWeek,
+                              decoration: InputDecoration(
+                                labelText: 'Select Week',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(color: Colors.grey),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0, vertical: 4.0),
+                              ),
+                              items: _weeks.map((DateTime week) {
+                                return DropdownMenuItem<DateTime>(
+                                  value: week,
+                                  child: Text(
+                                    _formatDate(week),
+                                    style: const TextStyle(
+                                      fontFamily: 'Nunito',
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF666159),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (DateTime? newWeek) {
+                                if (newWeek != null) {
+                                  setState(() {
+                                    _selectedWeek = newWeek;
+                                  });
+                                  _fetchWeeklySummary(newWeek);
+                                }
+                              },
+                              dropdownColor: const Color(0xFFFEFBF6),
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 20.0),
                       if (_isMember)
                         ..._weeklySummary.map((summary) {
                           return _buildProgressRow(
@@ -175,8 +241,8 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     }
   }
 
-  Widget _buildProgressRow(BuildContext context, String emojiPath,
-      double progress, Color color) {
+  Widget _buildProgressRow(
+      BuildContext context, String emojiPath, double progress, Color color) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
       child: Row(

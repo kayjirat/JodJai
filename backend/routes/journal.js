@@ -164,13 +164,20 @@ router.get('/ByMonthAndYear/:month/:year', verifyJWT, async (req, res) => {
 
 router.get('/weeklysum', verifyJWT, async (req, res) => {
     const user_id = req.user.user_id;
-    if (!user_id) {
+    const startOfWeek = new Date(req.query.startOfWeek);
+    if (!user_id || isNaN(startOfWeek)) {
         return res.status(400).send('Bad Request');
     }
+
+    const year = startOfWeek.getFullYear();
+    const week = getWeekNumber(startOfWeek);
+
     try {
         const pool = await sql.connect(dbConfig);
         const result = await pool.request()
             .input('user_id', sql.Int, user_id)
+            .input('year', sql.Int, year)
+            .input('week', sql.Int, week)
             .query(`
                 WITH MoodCounts AS (
                     SELECT 
@@ -182,6 +189,8 @@ router.get('/weeklysum', verifyJWT, async (req, res) => {
                         Journals
                     WHERE 
                         user_id = @user_id
+                        AND DATEPART(YEAR, entry_date) = @year
+                        AND DATEPART(WEEK, entry_date) = @week
                     GROUP BY 
                         DATEPART(YEAR, entry_date),
                         DATEPART(WEEK, entry_date),
@@ -218,7 +227,13 @@ router.get('/weeklysum', verifyJWT, async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
+function getWeekNumber(d) {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return weekNo;
+}
 router.get('/current-weeklysum', verifyJWT, async (req, res) => {
     const user_id = req.user.user_id;
     if (!user_id) {

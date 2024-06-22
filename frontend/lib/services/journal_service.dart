@@ -120,7 +120,7 @@ class JournalService {
     }
   }
 
-  Future<List<WeeklySummary>> getWeeklySummary(String token) async {
+  Future<List<WeeklySummary>> getCurrentWeeklySummary(String token) async {
     final response = await http.get(
       Uri.parse('$baseUrl/current-weeklysum'),
       headers: <String, String>{
@@ -133,5 +133,21 @@ class JournalService {
       return data.map((json) => WeeklySummary.fromJson(json)).toList();
     }
     throw Exception('Failed to load weekly summary');
+  }
+
+  Future<List<WeeklySummary>> getWeeklySummary(String token, DateTime startOfWeek) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/weeklysum?startOfWeek=${startOfWeek.toIso8601String()}'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      List<dynamic> body = json.decode(response.body);
+      return body.map((dynamic item) => WeeklySummary.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to fetch weekly summary');
+    }
   }
 }
