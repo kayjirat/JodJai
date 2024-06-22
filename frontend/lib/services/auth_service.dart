@@ -35,7 +35,6 @@ class AuthService {
     } else if (response.statusCode == 401) {
       throw Exception('Wrong password');
     } else {
-      print(response.body);
       throw Exception('Failed to login');
     }
   }

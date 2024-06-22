@@ -140,13 +140,13 @@ class _JournalListPageState extends State<JournalListPage> {
                   color: Color(0xFF666159),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   MonthYearDropdown(
                       onMonthYearChanged: _onMonthYearChanged),
-                  SizedBox(
+                  const SizedBox(
                     width: 80,
                   )
                 ],
