@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
@@ -87,13 +85,26 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFEFBF6),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Color(0xFF3C270B),
+          ),
+          onPressed: () {
+            Navigator.pop(context); 
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 116.0),
+              const SizedBox(height: 50.0),
               // Logo
               Image.asset(
                 'assets/images/JodJai_logo.png',
