@@ -182,7 +182,7 @@ class _JournalDetailPageState extends State<JournalDetailPage> {
                     child: Align(
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 100),
+                        padding: const EdgeInsets.symmetric(horizontal: 90),
                         child: Text(
                           formatDate(date),
                           style: const TextStyle(

@@ -39,7 +39,7 @@ class LandingPage extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
-                  'Set personalized goals, journal your thoughts and moods, and track your emotional well-being with our intuitive app.',
+                  'Keep a personal journal to record your thoughts and moods, and track your emotional well-being with our easy-to-use app.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Roboto',

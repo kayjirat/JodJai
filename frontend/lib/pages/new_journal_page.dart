@@ -51,13 +51,12 @@ class _NewJournalPageState extends State<NewJournalPage> {
   }
 
   void _saveJournalEntry() async {
-
     if (_titleController.text.isEmpty ||
         _contentController.text.isEmpty ||
         _selectedDate == null ||
         _selectedEmotion == 0) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('All fields are required')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('All fields are required')));
       return;
     }
     showDialog(
@@ -79,8 +78,8 @@ class _NewJournalPageState extends State<NewJournalPage> {
                   const SnackBar(content: Text('Journal entry created')));
               Navigator.pushNamed(context, '/journal');
             } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to create journal entry')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Failed to create journal entry')));
             }
           },
           onCancel: () {
@@ -297,7 +296,8 @@ class _NewJournalPageState extends State<NewJournalPage> {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(20.0), // Set border radius

@@ -66,7 +66,7 @@ class OnConfirmDialog extends StatelessWidget {
         TextButton(
           onPressed: onConfirm,
           style: TextButton.styleFrom(
-            backgroundColor: const Color(0xFF64D79C) ,
+            backgroundColor: const Color(0xFF3C270B),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
