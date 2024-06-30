@@ -33,14 +33,15 @@ class _WeeklySumPageState extends State<WeeklySumPage> {
     _loadTokenAndGetInfo();
   }
 
-  void _generateWeekList() {
+void _generateWeekList() {
   DateTime now = DateTime.now();
   for (int i = 0; i < 12; i++) {
-    DateTime startOfWeek = now.subtract(Duration(days: now.weekday - DateTime.monday + 7 * i));
+    DateTime startOfWeek = now.subtract(Duration(days: now.weekday - DateTime.sunday + 7 * i));
     _weeks.add(startOfWeek);
   }
   _selectedWeek = _weeks.first;
 }
+
 
 
   Future<void> _loadTokenFromSharedPreferences() async {

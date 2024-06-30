@@ -137,7 +137,7 @@ class JournalService {
 
   Future<List<WeeklySummary>> getWeeklySummary(String token, DateTime startOfWeek) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/weeklysum?startOfWeek=${startOfWeek.toIso8601String()}'),
+      Uri.parse('$baseUrl/weeklysum?startOfWeek=${startOfWeek.toIso8601String().substring(0, 10)}'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
