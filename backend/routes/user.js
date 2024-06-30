@@ -118,12 +118,6 @@ router.patch('/edit', verifyJWT, async (req, res) => {
     }
     try {
         const pool = await sql.connect(dbConfig);
-        const existedUsername = await pool.request()
-            .input('username', sql.NVarChar, username)
-            .query('SELECT * FROM Users WHERE username = @username');
-        if (existedUsername.recordset.length > 0 && existedUsername.recordset[0].user_id !== user_id) {
-            return res.status(409).send('Username already exists');
-        }
         await pool.request()
             .input('user_id', sql.Int, user_id)
             .input('username', sql.NVarChar, username)

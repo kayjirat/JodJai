@@ -71,15 +71,9 @@ route.post('/register', async (req, res) => {
     const created_at = getCurrentDateTimeUTC7();
     try {
         const pool = await sql.connect(dbConfig);
-        const usernameCheckResult = await pool.request()
-            .input('username', sql.NVarChar, username)
-            .query('SELECT * FROM Users WHERE username = @username');
         const emailCheckResult = await pool.request()
             .input('email', sql.NVarChar, email)
             .query('SELECT * FROM Users WHERE email = @email');
-        if (usernameCheckResult.recordset.length > 0) {
-            return res.status(409).send('Username already exists');
-        }
         if (emailCheckResult.recordset.length > 0) {
             return res.status(400).send('Email is already used');
         }
@@ -92,8 +86,8 @@ route.post('/register', async (req, res) => {
             .query('INSERT INTO Users (username, hashed_password, email, member_status, created_at) VALUES (@username, @hashed_password, @email, @member_status, @created_at)');
 
         const newUserResult = await pool.request()
-            .input('username', sql.NVarChar, username)
-            .query('SELECT user_id, username FROM Users WHERE username = @username');
+            .input('email', sql.NVarChar, email)
+            .query('SELECT user_id, username FROM Users WHERE email = @email');
         const newUser = newUserResult.recordset[0];
         const token = jwt.sign({ user_id: newUser.user_id, username: newUser.username }, jwtSecret, { expiresIn: '180d' });
         res.cookie('token', token, {
